@@ -10,3 +10,15 @@ C:\projects\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.dll
 C:\projects\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.pdb
 C:\projects\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\Domain.dll
 C:\projects\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\Domain.pdb
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\SchedulerBot.deps.json
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\SchedulerBot.runtimeconfig.json
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\SchedulerBot.runtimeconfig.dev.json
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\SchedulerBot.dll
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\SchedulerBot.pdb
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\Domain.dll
+C:\scheduler\bot\SchedulerBot\SchedulerBot\bin\Release\netcoreapp1.1\Domain.pdb
+C:\scheduler\bot\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.csprojResolveAssemblyReference.cache
+C:\scheduler\bot\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.csproj.CoreCompileInputs.cache
+C:\scheduler\bot\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.AssemblyInfo.cs
+C:\scheduler\bot\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.dll
+C:\scheduler\bot\SchedulerBot\SchedulerBot\obj\Release\netcoreapp1.1\SchedulerBot.pdb

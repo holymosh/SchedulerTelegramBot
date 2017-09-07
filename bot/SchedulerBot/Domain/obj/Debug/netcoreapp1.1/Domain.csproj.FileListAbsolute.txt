@@ -6,3 +6,11 @@ C:\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.csproj.CoreCompileInpu
 C:\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
 C:\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.dll
 C:\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.pdb
+C:\scheduler\bot\SchedulerBot\Domain\bin\Debug\netcoreapp1.1\Domain.deps.json
+C:\scheduler\bot\SchedulerBot\Domain\bin\Debug\netcoreapp1.1\Domain.dll
+C:\scheduler\bot\SchedulerBot\Domain\bin\Debug\netcoreapp1.1\Domain.pdb
+C:\scheduler\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.csprojResolveAssemblyReference.cache
+C:\scheduler\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.csproj.CoreCompileInputs.cache
+C:\scheduler\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.AssemblyInfo.cs
+C:\scheduler\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.dll
+C:\scheduler\bot\SchedulerBot\Domain\obj\Debug\netcoreapp1.1\Domain.pdb

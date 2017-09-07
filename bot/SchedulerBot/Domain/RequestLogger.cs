@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -6,9 +7,10 @@ namespace Domain
     {
         public RequestLogger()
         {
-            Data = new List<string>();
+            Data = new List<Update>();
         }
 
-        public IList<string> Data { get; set; }
+        public IList<Update> Data { get; set; }
+        public Object lastJson { get; set; }
     }
 }
