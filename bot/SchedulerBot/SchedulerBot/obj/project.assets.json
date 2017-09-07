@@ -9685,11 +9685,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\bot\\SchedulerBot\\SchedulerBot\\SchedulerBot.csproj",
+      "projectUniqueName": "C:\\scheduler\\bot\\SchedulerBot\\SchedulerBot\\SchedulerBot.csproj",
       "projectName": "SchedulerBot",
-      "projectPath": "C:\\bot\\SchedulerBot\\SchedulerBot\\SchedulerBot.csproj",
+      "projectPath": "C:\\scheduler\\bot\\SchedulerBot\\SchedulerBot\\SchedulerBot.csproj",
       "packagesPath": "C:\\Users\\MI\\.nuget\\packages\\",
-      "outputPath": "C:\\bot\\SchedulerBot\\SchedulerBot\\obj\\",
+      "outputPath": "C:\\scheduler\\bot\\SchedulerBot\\SchedulerBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\MI\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -9705,8 +9705,8 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "C:\\bot\\SchedulerBot\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\bot\\SchedulerBot\\Domain\\Domain.csproj"
+            "C:\\scheduler\\bot\\SchedulerBot\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\scheduler\\bot\\SchedulerBot\\Domain\\Domain.csproj"
             }
           }
         }

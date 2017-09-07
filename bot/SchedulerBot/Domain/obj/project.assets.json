@@ -7045,11 +7045,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\bot\\SchedulerBot\\Domain\\Domain.csproj",
+      "projectUniqueName": "C:\\scheduler\\bot\\SchedulerBot\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "C:\\bot\\SchedulerBot\\Domain\\Domain.csproj",
+      "projectPath": "C:\\scheduler\\bot\\SchedulerBot\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\MI\\.nuget\\packages\\",
-      "outputPath": "C:\\bot\\SchedulerBot\\Domain\\obj\\",
+      "outputPath": "C:\\scheduler\\bot\\SchedulerBot\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\MI\\AppData\\Roaming\\NuGet\\NuGet.Config",
