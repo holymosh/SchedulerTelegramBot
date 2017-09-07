@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.WebEncoders;
 
 namespace SchedulerBot.Controllers
 {
@@ -23,10 +25,10 @@ namespace SchedulerBot.Controllers
 
         [HttpPost]
         [Route("update")]
-        public IActionResult TestPost([FromBody] Update update)
+        public void TestPost([FromBody] Update update)
         {
             _logger.lastJson = update;
-            return Ok();
+            WebRequest request = WebRequest.Create("");
         }
     }
 }
