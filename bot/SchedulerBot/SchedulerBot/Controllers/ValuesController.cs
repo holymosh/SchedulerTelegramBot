@@ -20,16 +20,10 @@ namespace SchedulerBot.Controllers
             return Ok(_logger.lastJson);
         }
 
-        [HttpGet]
-        [Route("upd")]
-        public IActionResult TestMethod()
-        {
-            return Ok(_logger.Data[_logger.Data.Count]);
-        }
 
         [HttpPost]
         [Route("update")]
-        public IActionResult TestPost([FromBody] Object update)
+        public IActionResult TestPost([FromBody] Update update)
         {
             _logger.lastJson = update;
             return Ok();
