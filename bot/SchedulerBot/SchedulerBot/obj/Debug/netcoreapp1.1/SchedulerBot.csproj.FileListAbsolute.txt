@@ -1,0 +1,12 @@
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\SchedulerBot.deps.json
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\SchedulerBot.runtimeconfig.json
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\SchedulerBot.runtimeconfig.dev.json
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\SchedulerBot.dll
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\SchedulerBot.pdb
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\Domain.dll
+C:\bot\SchedulerBot\SchedulerBot\bin\Debug\netcoreapp1.1\Domain.pdb
+C:\bot\SchedulerBot\SchedulerBot\obj\Debug\netcoreapp1.1\SchedulerBot.csprojResolveAssemblyReference.cache
+C:\bot\SchedulerBot\SchedulerBot\obj\Debug\netcoreapp1.1\SchedulerBot.csproj.CoreCompileInputs.cache
+C:\bot\SchedulerBot\SchedulerBot\obj\Debug\netcoreapp1.1\SchedulerBot.AssemblyInfo.cs
+C:\bot\SchedulerBot\SchedulerBot\obj\Debug\netcoreapp1.1\SchedulerBot.dll
+C:\bot\SchedulerBot\SchedulerBot\obj\Debug\netcoreapp1.1\SchedulerBot.pdb
