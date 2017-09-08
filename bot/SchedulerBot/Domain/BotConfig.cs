@@ -6,6 +6,7 @@ namespace Domain
     {
         public static string Token { get; private set; }
         public static string Url { get; private set; }
+        public static string SendMessage { get; set; }
         public BotConfig()
         {
             XmlReader reader = XmlReader.Create("botconfig.xml");
@@ -16,6 +17,8 @@ namespace Domain
                     case "token": Token = reader.ReadElementContentAsString();
                         break;
                     case "url": Url = reader.ReadElementContentAsString();
+                        break;
+                    case "sendMessage": SendMessage = reader.ReadElementContentAsString();
                         break;
                 }
             }

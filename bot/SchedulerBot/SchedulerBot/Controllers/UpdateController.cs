@@ -26,7 +26,6 @@ namespace SchedulerBot.Controllers
         public void TestPost([FromBody] Update update)
         {
             _logger.lastJson = update;
-            WebRequest request = WebRequest.Create("");
         }
     }
 }
