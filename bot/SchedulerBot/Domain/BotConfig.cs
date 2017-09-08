@@ -2,19 +2,20 @@
 
 namespace Domain
 {
-    public class BotToken
+    public class BotConfig
     {
         public static string Token { get; private set; }
-
-        public BotToken()
+        public static string Url { get; private set; }
+        public BotConfig()
         {
-            Token = "token";
-            XmlReader reader = XmlReader.Create("token.xml");
+            XmlReader reader = XmlReader.Create("botconfig.xml");
             while (reader.Read())
             {
                 switch (reader.Name)
                 {
                     case "token": Token = reader.ReadElementContentAsString();
+                        break;
+                    case "url": Url = reader.ReadElementContentAsString();
                         break;
                 }
             }

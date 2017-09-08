@@ -1,16 +1,14 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.WebEncoders;
 
 namespace SchedulerBot.Controllers
 {
-    public class ValuesController : Controller
+    public class UpdateController : Controller
     {
         private RequestLogger _logger;
 
-        public ValuesController(RequestLogger logger)
+        public UpdateController(RequestLogger logger)
         {
             _logger = logger;
         }
