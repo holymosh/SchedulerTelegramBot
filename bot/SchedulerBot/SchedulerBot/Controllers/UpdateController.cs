@@ -16,10 +16,19 @@ namespace SchedulerBot.Controllers
         }
 
         [HttpGet]
-        [Route("logger/{}")]
-        public IActionResult last()
+        [Route("update/{action}/{index}")]
+        public IActionResult ActionResult(LoggerActions actions , int index)
         {
-            return Ok(_logger.lastJson);
+            switch (actions)
+            {
+                case LoggerActions.delete:
+                    _logger.Updates.RemoveAt(index);
+                    return Ok("removed");
+                case LoggerActions.get:
+                    return Ok(_logger.Updates[index]);
+                default:
+                    return BadRequest();
+            }
         }
 
 
@@ -27,7 +36,7 @@ namespace SchedulerBot.Controllers
         [Route("update")]
         public IActionResult TestPost([FromBody] Update update)
         {
-            _logger.lastJson =  update;
+            _logger.Updates.Add(update);
             TelegramApiProxy apiProxy = new TelegramApiProxy();
             var message = JsonConvert.SerializeObject(new SendMessage(update.message.chat.id.ToString(), "флуд"));
             apiProxy.SendMessage(message);

@@ -5,14 +5,15 @@ namespace Domain
 {
     public class RequestLogger
     {
-        public Object lastJson { get; set; }
-        private IList<Object> _objects = new List<object>();
-
-        
+        public RequestLogger()
+        {
+            Updates = new List<Update>();
+        }
+        public IList<Update> Updates { get; set; }
     }
 
-    public enum Options
+    public enum LoggerActions
     {
-        last,all,index
+        get,delete
     }
 }
