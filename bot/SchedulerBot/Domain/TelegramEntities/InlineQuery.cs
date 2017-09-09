@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace Domain.TelegramEntities
 {
     public class InlineQuery
     {

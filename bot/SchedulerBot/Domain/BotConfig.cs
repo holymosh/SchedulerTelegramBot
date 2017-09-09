@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 
 namespace Domain
 {
@@ -9,7 +10,14 @@ namespace Domain
         public static string SendMessage { get; set; }
         public BotConfig()
         {
-            XmlReader reader = XmlReader.Create("botconfig.xml");
+            var localPath = @"C:\scheduler\bot\SchedulerBot\SchedulerBot\botconfig.xml";
+            var productionPath = "botconfig.xml";
+            var realPath = localPath;
+            if (!File.Exists(localPath))
+            {
+                realPath = productionPath;
+            }
+            XmlReader reader = XmlReader.Create(realPath);
             while (reader.Read())
             {
                 switch (reader.Name)
@@ -18,7 +26,7 @@ namespace Domain
                         break;
                     case "url": Url = reader.ReadElementContentAsString();
                         break;
-                    case "sendMessage": SendMessage = reader.ReadElementContentAsString();
+                    case "send": SendMessage = reader.ReadElementContentAsString();
                         break;
                 }
             }

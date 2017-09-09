@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using Domain.TelegramEntities;
+
+namespace Domain
 {
     public class Chat
     {

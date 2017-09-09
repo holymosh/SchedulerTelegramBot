@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
 using Domain;
+using Domain.TelegramEntities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace SchedulerBot.Controllers
 {
@@ -14,7 +16,7 @@ namespace SchedulerBot.Controllers
         }
 
         [HttpGet]
-        [Route("obj")]
+        [Route("logger/{}")]
         public IActionResult last()
         {
             return Ok(_logger.lastJson);
@@ -23,9 +25,14 @@ namespace SchedulerBot.Controllers
 
         [HttpPost]
         [Route("update")]
-        public void TestPost([FromBody] Update update)
+        public IActionResult TestPost([FromBody] Update update)
         {
-            _logger.lastJson = update;
+            _logger.lastJson =  update;
+            TelegramApiProxy apiProxy = new TelegramApiProxy();
+            var message = JsonConvert.SerializeObject(new SendMessage(update.message.chat.id.ToString(), "флуд"));
+            apiProxy.SendMessage(message);
+            
+            return Ok();
         }
     }
 }
