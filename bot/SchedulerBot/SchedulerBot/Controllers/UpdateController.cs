@@ -1,7 +1,5 @@
 ﻿using Domain;
-using Domain.TelegramEntities;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using SchedulerBot.Facade;
 
 namespace SchedulerBot.Controllers
@@ -11,7 +9,7 @@ namespace SchedulerBot.Controllers
         private RequestLogger _logger;
         private ActionFacade _facade;
 
-        public UpdateController(RequestLogger Logger , ActionFacade ActionFacade)
+        public UpdateController(RequestLogger Logger, ActionFacade ActionFacade)
         {
             _logger = Logger;
             _facade = ActionFacade;

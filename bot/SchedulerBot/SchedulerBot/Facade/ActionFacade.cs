@@ -14,7 +14,7 @@ namespace SchedulerBot.Facade
         {
             _actions = actions;
             _dataToActions = new Dictionary<string, Action<Update>>();
-            //_dataToActions.Add("/start" ,  _actions.Start);
+            _dataToActions.Add("/start" ,  _actions.Start);
             _dataToActions.Add("/info" , _actions.SendInformationAboutBot);
         }
 

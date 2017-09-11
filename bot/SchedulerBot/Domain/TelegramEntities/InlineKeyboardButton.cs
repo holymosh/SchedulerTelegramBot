@@ -3,12 +3,12 @@
     public class InlineKeyboardButton
     {
         public string text { get; set; }
-        public string url { get; set; }
+        public string callback_data { get; set; }
 
-        public InlineKeyboardButton(string text, string url)
+        public InlineKeyboardButton(string Text, string CallbackData)
         {
-            this.text = text;
-            this.url = url;
+            text = Text;
+            callback_data = CallbackData;
         }
     }
 }
