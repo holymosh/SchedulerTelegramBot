@@ -1,23 +1,32 @@
-﻿using System;
-using Domain;
+﻿using Domain;
 using Domain.TelegramEntities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SchedulerBot.Facade;
 
 namespace SchedulerBot.Controllers
 {
     public class UpdateController : Controller
     {
         private RequestLogger _logger;
+        private ActionFacade _facade;
 
-        public UpdateController(RequestLogger logger)
+        public UpdateController(RequestLogger Logger , ActionFacade ActionFacade)
         {
-            _logger = logger;
+            _logger = Logger;
+            _facade = ActionFacade;
         }
 
         [HttpGet]
-        [Route("update/{action}/{index}")]
-        public IActionResult ActionResult(LoggerActions actions , int index)
+        [Route("test")]
+        public IActionResult Test()
+        {
+            return Ok("tested");
+        }
+
+        [HttpGet]
+        [Route("update/{actions}/{index}")]
+        public IActionResult ActionResult(LoggerActions actions, int index)
         {
             switch (actions)
             {
@@ -37,10 +46,7 @@ namespace SchedulerBot.Controllers
         public IActionResult TestPost([FromBody] Update update)
         {
             _logger.Updates.Add(update);
-            TelegramApiProxy apiProxy = new TelegramApiProxy();
-            var message = JsonConvert.SerializeObject(new SendMessage(update.message.chat.id.ToString(), "флуд"));
-            apiProxy.SendMessage(message);
-            
+            _facade.DoAction(update);
             return Ok();
         }
     }
