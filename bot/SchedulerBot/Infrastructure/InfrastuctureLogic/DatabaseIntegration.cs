@@ -9,7 +9,7 @@ namespace Infrastructure.InfrastuctureLogic
     {
         public DatabaseIntegration(IServiceCollection collection)
         {
-            collection.AddDbContext<ScheduleContext>(builder => builder.UseSqlServer(BotConfig.ConnectionString));
+            collection.AddDbContext<ScheduleContext>(builder => builder.UseSqlServer(BotConfig.ConnectionString,optionsBuilder => optionsBuilder.EnableRetryOnFailure()));
         }
     }
 }

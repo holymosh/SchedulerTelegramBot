@@ -13,8 +13,7 @@ namespace SchedulerBot
         public HttpResponseMessage SendMessage(SendMessage message)
         {
             var client = new HttpClient();
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            var serializerSettings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore};
             var jsonData = JsonConvert.SerializeObject(message,serializerSettings);
             var content = new StringContent(jsonData,Encoding.UTF8, "application/json");
             return client.PostAsync(_apiUrl + BotConfig.SendMessage, content).Result;

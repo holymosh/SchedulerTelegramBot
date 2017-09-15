@@ -33,7 +33,7 @@ namespace SchedulerBot
             services.AddSingleton<TelegramApiProxy>();
             services.AddSingleton<ApiActions>();
             services.AddSingleton<ActionFacade>();
-            //services.AddSingleton(new DatabaseIntegration(services));
+            services.AddSingleton(new DatabaseIntegration(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

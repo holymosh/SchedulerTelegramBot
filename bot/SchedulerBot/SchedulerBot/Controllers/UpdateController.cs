@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using System.Linq;
+using Domain;
+using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using SchedulerBot.Facade;
 
@@ -8,18 +10,25 @@ namespace SchedulerBot.Controllers
     {
         private RequestLogger _logger;
         private ActionFacade _facade;
+        private ScheduleContext _context;
 
-        public UpdateController(RequestLogger Logger, ActionFacade ActionFacade)
+        public UpdateController(RequestLogger Logger, ActionFacade ActionFacade, ScheduleContext context)
         {
             _logger = Logger;
             _facade = ActionFacade;
+            _context = context;
         }
 
         [HttpGet]
         [Route("test")]
         public IActionResult Test()
         {
-            return Ok("tested");
+            var teacher = new Teacher();
+            teacher.FatherName = "popengauz";
+            teacher.Name = "kekauz";
+            teacher.Surname = "huyauz";
+            _context.Teachers.Add(teacher);
+            return Ok(_context.Teachers.SingleOrDefault(teacher1 => teacher.FatherName.Equals("popengauz")));
         }
 
         [HttpGet]
