@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Domain;
+﻿using Domain;
+using Infrastructure.InfrastuctureLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +33,7 @@ namespace SchedulerBot
             services.AddSingleton<TelegramApiProxy>();
             services.AddSingleton<ApiActions>();
             services.AddSingleton<ActionFacade>();
+            //services.AddSingleton(new DatabaseIntegration(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -17,7 +17,15 @@ namespace Infrastructure.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-        }
+            var mapper = new ModelMapper();
+            mapper.MapGroup(builder.Entity<Group>())
+                   .MapSchedule(builder.Entity<Schedule>())
+                   .MapStudent(builder.Entity<Student>())
+                   .MapWeek(builder.Entity<Week>())
+                   .MapDay(builder.Entity<Day>())
+                   .MapCourse(builder.Entity<Course>())
+                   .MapTeacher(builder.Entity<Teacher>());
+        }   
 
 
 
