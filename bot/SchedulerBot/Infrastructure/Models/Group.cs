@@ -4,16 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models
 {
-    [Table("Group")]
     public class Group
     {
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [MaxLength(10),Required]
         public string Name { get; set; }
 
         public ISet<Student> Students { get; set; }
+
+        public int ScheduleId { get; set; }
         public Schedule Schedule { get; set; }
     }
 }

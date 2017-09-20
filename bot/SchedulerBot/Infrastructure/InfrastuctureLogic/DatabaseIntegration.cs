@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.InfrastuctureLogic
@@ -9,7 +10,12 @@ namespace Infrastructure.InfrastuctureLogic
     {
         public DatabaseIntegration(IServiceCollection collection)
         {
-            collection.AddDbContext<ScheduleContext>(builder => builder.UseSqlServer(BotConfig.ConnectionString,optionsBuilder => optionsBuilder.EnableRetryOnFailure()));
+            collection.AddEntityFrameworkSqlServer()
+                .AddDbContext<ScheduleContext>(
+                    (provider, builder) =>
+                    {
+                        builder.UseSqlServer(BotConfig.ConnectionString);
+                    });
         }
     }
 }

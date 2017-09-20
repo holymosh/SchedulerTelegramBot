@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Domain;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,16 @@ namespace SchedulerBot.Controllers
         [Route("test")]
         public IActionResult Test()
         {
-            var teacher = new Teacher();
-            teacher.FatherName = "popengauz";
-            teacher.Name = "kekauz";
-            teacher.Surname = "huyauz";
-            _context.Teachers.Add(teacher);
-            return Ok(_context.Teachers.SingleOrDefault(teacher1 => teacher.FatherName.Equals("popengauz")));
+            var lessons = new SortedSet<Course>(){new Course(){Name = "TSP",
+                Location = "B-902",StartHour = 9,EndHour = 11,StartMinute = 0,EndMinute = 0,
+                Teacher = new Teacher(){Name = "gop",FatherName = "israeli", Surname = "shiheeva"} }};
+            var days = new SortedSet<Day>() { new Day() { Name = "monday", Lessons = lessons } };
+            var students = new SortedSet<Student>() { new Student() { FirstName = "holy", LastName = "mosh", IsAdmin = true, Id = "123123112" } };
+            var schedule = new Schedule() { Days = days };
+            var group = new Group() { Name = "MM-15-2", Schedule = schedule, Students = students };
+            _context.SaveGroup(group);
+            var result = _context.GetGroupsByName(group.Name);
+            return Ok(result);
         }
 
         [HttpGet]

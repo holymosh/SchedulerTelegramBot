@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models
@@ -6,17 +7,18 @@ namespace Infrastructure.Models
     [Table("Teacher")]
     public class Teacher
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [MaxLength(50),Required]
         public string Name { get; set; }
 
-        [Required]
+        [MaxLength(50),Required]
         public string Surname { get; set; }
 
-        [Required]
+        [MaxLength(50),Required]
         public string FatherName { get; set; }
+        
+        public ISet<Course> Courses { get; set; }
     }
 }
