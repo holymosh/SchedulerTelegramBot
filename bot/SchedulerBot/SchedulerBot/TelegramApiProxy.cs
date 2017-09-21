@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace SchedulerBot
 {
-    public class TelegramApiProxy
+    public class TelegramApiProxy : ITelegramApiProxy
     {
         private string _apiUrl;
 

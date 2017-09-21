@@ -3,20 +3,20 @@ using System.Linq;
 using Domain;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
-using SchedulerBot.Facade;
+using SchedulerBot.FrontController;
 
 namespace SchedulerBot.Controllers
 {
     public class UpdateController : Controller
     {
         private RequestLogger _logger;
-        private ActionFacade _facade;
+        private TelegramFrontController _facade;
         private ScheduleContext _context;
 
-        public UpdateController(RequestLogger Logger, ActionFacade ActionFacade, ScheduleContext context)
+        public UpdateController(RequestLogger Logger, TelegramFrontController telegramFrontController, ScheduleContext context)
         {
             _logger = Logger;
-            _facade = ActionFacade;
+            _facade = telegramFrontController;
             _context = context;
         }
 
@@ -24,16 +24,17 @@ namespace SchedulerBot.Controllers
         [Route("test")]
         public IActionResult Test()
         {
-            var lessons = new SortedSet<Course>(){new Course(){Name = "TSP",
-                Location = "B-902",StartHour = 9,EndHour = 11,StartMinute = 0,EndMinute = 0,
-                Teacher = new Teacher(){Name = "gop",FatherName = "israeli", Surname = "shiheeva"} }};
-            var days = new SortedSet<Day>() { new Day() { Name = "monday", Lessons = lessons } };
-            var students = new SortedSet<Student>() { new Student() { FirstName = "holy", LastName = "mosh", IsAdmin = true, Id = "123123112" } };
-            var schedule = new Schedule() { Days = days };
-            var group = new Group() { Name = "MM-15-2", Schedule = schedule, Students = students };
-            _context.SaveGroup(group);
-            var result = _context.GetGroupsByName(group.Name);
-            return Ok(result);
+            //var lessons = new SortedSet<Course>(){new Course(){Name = "TSP",
+            //    Location = "B-902",StartHour = 9,EndHour = 11,StartMinute = 0,EndMinute = 0,
+            //    Teacher = new Teacher(){Name = "gop",FatherName = "israeli", Surname = "shiheeva"} }};
+            //var days = new SortedSet<Day>() { new Day() { Name = "monday", Lessons = lessons } };
+            //var students = new SortedSet<Student>() { new Student() { FirstName = "holy", LastName = "mosh", IsAdmin = true, Id = "123123112" } };
+            //var schedule = new Schedule() { Days = days };
+            //var group = new Group() { Name = "MM-15-2", Schedule = schedule, Students = students };
+            //_context.SaveGroup(group);
+            //var result = _context.GetGroupsByName(group.Name);
+            //return Ok(result);
+            return Ok(_context.Groups.First());
         }
 
         [HttpGet]

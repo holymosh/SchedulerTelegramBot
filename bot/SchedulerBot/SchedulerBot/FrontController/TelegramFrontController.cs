@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
+using SchedulerBot.FrontController;
 
-namespace SchedulerBot.Facade
+namespace SchedulerBot.FrontController
 {
-    public class ActionFacade
+    public class TelegramFrontController : ITelegramFrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
         private ApiActions _actions;
 
-        public ActionFacade(ApiActions actions)
+        public TelegramFrontController(ApiActions actions)
         {
             _actions = actions;
             _dataToActions = new Dictionary<string, Action<Update>>();

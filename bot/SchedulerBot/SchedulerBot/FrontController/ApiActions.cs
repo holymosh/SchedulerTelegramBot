@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain;
 using Domain.TelegramEntities;
+using SchedulerBot.FrontController;
 
-namespace SchedulerBot.Facade
+namespace SchedulerBot.FrontController
 {
-    public class ApiActions
+    public class ApiActions: IApiActions
     {
         private TelegramApiProxy _proxy;
 

@@ -1,14 +1,12 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Models
 {
-    public class ScheduleContext: DbContext
+    public class ScheduleContext : DbContext
     {
         public ScheduleContext(DbContextOptions<ScheduleContext> contextOptions) : base(contextOptions)
         {
@@ -33,12 +31,12 @@ namespace Infrastructure.Models
         {
             var mapper = new ModelMapper();
             mapper.MapGroup(builder.Entity<Group>())
-                  .MapSchedule(builder.Entity<Schedule>())
-                  .MapStudent(builder.Entity<Student>())
-                  .MapDay(builder.Entity<Day>())
-                  .MapCourse(builder.Entity<Course>())
-                  .MapTeacher(builder.Entity<Teacher>())
-                  ;
+                .MapSchedule(builder.Entity<Schedule>())
+                .MapStudent(builder.Entity<Student>())
+                .MapDay(builder.Entity<Day>())
+                .MapCourse(builder.Entity<Course>())
+                .MapTeacher(builder.Entity<Teacher>())
+                ;
             base.OnModelCreating(builder);
         }
 
@@ -52,7 +50,6 @@ namespace Infrastructure.Models
         {
             Groups.Add(group);
             SaveChanges();
-
         }
     }
 }

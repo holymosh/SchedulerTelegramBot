@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SchedulerBot.Facade;
+using SchedulerBot.FrontController;
 
 namespace SchedulerBot
 {
@@ -30,9 +30,9 @@ namespace SchedulerBot
             services.AddMvc();
             services.AddSingleton(new RequestLogger());
             services.AddSingleton(new BotConfig());
-            services.AddSingleton<TelegramApiProxy>();
-            services.AddSingleton<ApiActions>();
-            services.AddSingleton<ActionFacade>();
+            services.AddSingleton<ITelegramApiProxy,TelegramApiProxy>();
+            services.AddSingleton<IApiActions,ApiActions>();
+            services.AddSingleton<ITelegramFrontController,TelegramFrontController>();
             services.AddSingleton(new DatabaseIntegration(services));
         }
 
