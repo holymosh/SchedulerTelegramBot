@@ -4,7 +4,7 @@ using Domain;
 using Domain.TelegramEntities;
 using Newtonsoft.Json;
 
-namespace SchedulerBot
+namespace SchedulerBot.Proxies
 {
     public class TelegramApiProxy : ITelegramApiProxy
     {

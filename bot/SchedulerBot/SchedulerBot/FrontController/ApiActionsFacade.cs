@@ -1,22 +1,34 @@
 ﻿using System.Collections.Generic;
+using Domain;
 using Domain.TelegramEntities;
+using Infrastructure.InfrastuctureLogic;
+using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
+using SchedulerBot.Proxies;
 
-namespace Domain
+namespace SchedulerBot.FrontController
 {
-    public class ButtonFactoryMethod:IButtonFactoryMethod
+    public class ApiActionsFacade : IApiActionsFacade
     {
-        public InlineKeyboardMarkup CreateStartMenu(bool IsRegistered)
+        private ITelegramApiProxy _proxy;
+        private IStudentRepository _studentRepository;
+        private Queue<ScheduleContext> _contexts;
+        private IButtonFactoryMethod _buttonFactory;
+
+        public ApiActionsFacade(ITelegramApiProxy proxy ,
+                                      IStudentRepository studentRepository,
+                                      IButtonFactoryMethod buttonsFactory)
         {
-            return IsRegistered ? 
-                CreateMenuForAuthorizedUser() :
-                CreateMenuForUnauthorizedUser();
+            _studentRepository = studentRepository;
+            _proxy = proxy;
+            _contexts = new Queue<ScheduleContext>();
+            _buttonFactory = buttonsFactory;
         }
 
-        private InlineKeyboardMarkup CreateMenuForAuthorizedUser()
+        public void Start(Update update)
         {
             IList<InlineKeyboardButton> groupButton = new List<InlineKeyboardButton>()
             {
-                new InlineKeyboardButton("Выйти из группы", "/groups"),
+                new InlineKeyboardButton("Группы", "/groups"),
             };
             IList<InlineKeyboardButton> currentButton = new List<InlineKeyboardButton>()
             {
@@ -58,23 +70,26 @@ namespace Domain
                 messageButton,
                 fileButton
             };
-            return new InlineKeyboardMarkup(listOfListOfButtons);
+            InlineKeyboardMarkup markup = new InlineKeyboardMarkup(listOfListOfButtons);
+            var message = new SendMessage(update.message.chat.id.ToString(), "еболда", markup);
+            _proxy.SendMessage(message);
         }
 
-        private InlineKeyboardMarkup CreateMenuForUnauthorizedUser()
+        public void SendInformationAboutBot(Update update)
         {
-            IList<InlineKeyboardButton> groupButton = new List<InlineKeyboardButton>()
-            {
-                new InlineKeyboardButton("Присоединиться к группе", "/join"),
+            var message = new SendMessage(update.message.chat.id.ToString(), "Бот для расписания в мисосе");
+            _proxy.SendMessage(message);
+        }
 
-            };
+        public void SendError(Update update)
+        {
+            var message = new SendMessage(update.message.chat.id.ToString(), "команда не найдена");
+            _proxy.SendMessage(message);
+        }
 
-            IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>()
-            {
-                groupButton
-            };
-            return new InlineKeyboardMarkup(listOfListOfButtons);
-
+        public void AddContext(ScheduleContext context)
+        {
+            _contexts.Enqueue(context);
         }
     }
 }

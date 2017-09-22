@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SchedulerBot.FrontController;
+using SchedulerBot.Proxies;
 
 namespace SchedulerBot
 {
@@ -31,10 +32,11 @@ namespace SchedulerBot
             services.AddSingleton(new RequestLogger());
             services.AddSingleton(new BotConfig());
             services.AddSingleton<ITelegramApiProxy,TelegramApiProxy>();
-            services.AddSingleton<IApiActions,ApiActions>();
+            services.AddSingleton<IApiActionsFacade,ApiActionsFacade>();
             services.AddSingleton<ITelegramFrontController,TelegramFrontController>();
             services.AddSingleton(new DatabaseIntegration(services));
-        }
+            services.AddScoped<DatabaseContextProxy>();
+        }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -43,5 +45,6 @@ namespace SchedulerBot
             loggerFactory.AddDebug();
             app.UseMvc();
         }
+
     }
 }

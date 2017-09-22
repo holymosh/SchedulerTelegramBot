@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Models
+namespace Infrastructure.InfrastuctureLogic
 {
     public class ModelMapper
     {
@@ -29,7 +30,6 @@ namespace Infrastructure.Models
         {
             builder.ToTable("Schedule");
             builder.HasKey(schedule => schedule.Id);
-            //builder.HasOne(schedule => schedule.Group).WithOne(group => group.Schedule);
             builder.HasMany(schedule => schedule.Days).WithOne(day => day.Schedule);
             return this;
         }
@@ -55,7 +55,6 @@ namespace Infrastructure.Models
             builder.Property(course => course.EndMinute);
             builder.Property(course => course.LessonType);
             builder.Property(course => course.Location);
-            //builder.HasOne(course => course.Day).WithMany(day => day.Lessons);
             builder.HasOne(course => course.Teacher).WithMany(teacher => teacher.Courses);
             return this;
         }
@@ -67,7 +66,6 @@ namespace Infrastructure.Models
             builder.Property(teacher => teacher.Name);
             builder.Property(teacher => teacher.Surname);
             builder.Property(teacher => teacher.FatherName);
-            //builder.HasMany(teacher => teacher.Courses).WithOne(course => course.Teacher);
             return this;
         }
     }

@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Infrastructure.Models
+namespace Infrastructure.InfrastuctureLogic
 {
     public class ScheduleContext : DbContext
     {
@@ -51,5 +52,6 @@ namespace Infrastructure.Models
             Groups.Add(group);
             SaveChanges();
         }
+
     }
 }

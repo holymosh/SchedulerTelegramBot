@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using Domain.TelegramEntities;
 
-namespace SchedulerBot
+namespace SchedulerBot.Proxies
 {
     public interface ITelegramApiProxy
     {

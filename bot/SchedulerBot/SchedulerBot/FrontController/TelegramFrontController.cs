@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
-using SchedulerBot.FrontController;
 
 namespace SchedulerBot.FrontController
 {
     public class TelegramFrontController : ITelegramFrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
-        private ApiActions _actions;
+        private ApiActionsFacade _actionsFacade;
 
-        public TelegramFrontController(ApiActions actions)
+        public TelegramFrontController(ApiActionsFacade actionsFacade)
         {
-            _actions = actions;
+            _actionsFacade = actionsFacade;
             _dataToActions = new Dictionary<string, Action<Update>>();
-            _dataToActions.Add("/start" ,  _actions.Start);
-            _dataToActions.Add("/info" , _actions.SendInformationAboutBot);
+            _dataToActions.Add("/start" ,  _actionsFacade.Start);
+            _dataToActions.Add("/info" , _actionsFacade.SendInformationAboutBot);
         }
 
         public void DoAction(Update update)
@@ -29,7 +28,7 @@ namespace SchedulerBot.FrontController
             }
             catch (Exception e)
             {
-                _actions.SendError(update);
+                _actionsFacade.SendError(update);
             }
         }
     }
