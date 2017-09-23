@@ -1,5 +1,7 @@
 ﻿using Domain;
 using Infrastructure.InfrastuctureLogic;
+using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
+using Infrastructure.InfrastuctureLogic.Repositories.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,11 +33,13 @@ namespace SchedulerBot
             services.AddMvc();
             services.AddSingleton(new RequestLogger());
             services.AddSingleton(new BotConfig());
+            services.AddSingleton<IButtonFactoryMethod,ButtonFactoryMethod>();
             services.AddSingleton<ITelegramApiProxy,TelegramApiProxy>();
             services.AddSingleton<IApiActionsFacade,ApiActionsFacade>();
             services.AddSingleton<ITelegramFrontController,TelegramFrontController>();
             services.AddSingleton(new DatabaseIntegration(services));
             services.AddScoped<DatabaseContextProxy>();
+            services.AddSingleton<IStudentRepository, StudentRepository>();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

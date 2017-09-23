@@ -5,7 +5,7 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
     public interface IStudentRepository
     {
         IStudentRepository UseContext(ScheduleContext context);
-        bool IsRegistered(Student student);
+        bool IsRegistered(string id);
         void JoinStudent(Student student);
     }
 }

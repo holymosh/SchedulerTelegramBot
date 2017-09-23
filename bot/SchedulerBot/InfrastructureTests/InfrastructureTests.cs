@@ -15,13 +15,7 @@ namespace InfrastructureTests
         {
             IStudentRepository studentRepository = new StudentRepository();
             ScheduleContextTest context = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-            var student = new Student()
-            {
-                Id = "136329961",
-                FirstName = "Dmitry",
-                LastName = "Holymosh"
-            };
-            var result = studentRepository.UseContext(context).IsRegistered(student);
+            var result = studentRepository.UseContext(context).IsRegistered("136329961");
             Assert.IsTrue(result);
         }
 
@@ -30,13 +24,7 @@ namespace InfrastructureTests
         {
             IStudentRepository studentRepository = new StudentRepository();
             ScheduleContextTest context = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-            var student = new Student()
-            {
-                Id = "48923741",
-                FirstName = "no",
-                LastName = "user"
-            };
-            var result = studentRepository.UseContext(context).IsRegistered(student);
+            var result = studentRepository.UseContext(context).IsRegistered("fail");
             Assert.IsFalse(result);
         }
     }

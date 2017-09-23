@@ -18,9 +18,9 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             return this;
         }
 
-        public bool IsRegistered(Student student)
+        public bool IsRegistered(string id)
         {
-            return _students.Any(entity => entity.Id.Equals(student.Id));
+            return _students.Any(entity => entity.Id.Equals(id));
         }
 
         public void JoinStudent(Student student)

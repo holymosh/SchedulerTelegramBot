@@ -5,20 +5,26 @@ using Infrastructure.InfrastuctureLogic;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using SchedulerBot.FrontController;
+using SchedulerBot.Proxies;
 
 namespace SchedulerBot.Controllers
 {
     public class UpdateController : Controller
     {
         private RequestLogger _logger;
-        private TelegramFrontController _facade;
+        private ITelegramFrontController _frontController;
         private ScheduleContext _context;
+        private DatabaseContextProxy _contextProxy;
 
-        public UpdateController(RequestLogger Logger, TelegramFrontController telegramFrontController, ScheduleContext context)
+        public UpdateController(RequestLogger Logger, 
+                                ITelegramFrontController telegramFrontController, 
+                                ScheduleContext context,
+                                DatabaseContextProxy contextProxy)
         {
             _logger = Logger;
-            _facade = telegramFrontController;
+            _frontController = telegramFrontController;
             _context = context;
+            _contextProxy = contextProxy;
         }
 
         [HttpGet]
@@ -60,7 +66,8 @@ namespace SchedulerBot.Controllers
         public IActionResult TestPost([FromBody] Update update)
         {
             _logger.Updates.Add(update);
-            _facade.DoAction(update);
+            _contextProxy.SetContext();
+            _frontController.DoAction(update);
             return Ok();
         }
     }

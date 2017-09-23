@@ -8,14 +8,16 @@ namespace SchedulerBot.FrontController
     public class TelegramFrontController : ITelegramFrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
-        private ApiActionsFacade _actionsFacade;
+        private IApiActionsFacade _actionsFacade;
 
-        public TelegramFrontController(ApiActionsFacade actionsFacade)
+        public TelegramFrontController(IApiActionsFacade actionsFacade)
         {
             _actionsFacade = actionsFacade;
-            _dataToActions = new Dictionary<string, Action<Update>>();
-            _dataToActions.Add("/start" ,  _actionsFacade.Start);
-            _dataToActions.Add("/info" , _actionsFacade.SendInformationAboutBot);
+            _dataToActions = new Dictionary<string, Action<Update>>
+            {
+                {"/start", _actionsFacade.Start},
+                {"/info", _actionsFacade.SendInformationAboutBot}
+            };
         }
 
         public void DoAction(Update update)
