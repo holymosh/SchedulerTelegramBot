@@ -1,4 +1,6 @@
 ﻿using Domain;
+using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.InfrastuctureLogic;
 using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
 using Infrastructure.InfrastuctureLogic.Repositories.Models;
@@ -40,6 +42,7 @@ namespace SchedulerBot
             services.AddSingleton(new DatabaseIntegration(services));
             services.AddScoped<DatabaseContextProxy>();
             services.AddSingleton<IStudentRepository, StudentRepository>();
+            services.AddSingleton<IUpdateReader, UpdateReader>();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

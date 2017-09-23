@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
+using Domain.Interfaces;
 
 namespace SchedulerBot.FrontController
 {
@@ -9,9 +10,11 @@ namespace SchedulerBot.FrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
         private IApiActionsFacade _actionsFacade;
+        private readonly IUpdateReader _reader;
 
-        public TelegramFrontController(IApiActionsFacade actionsFacade)
+        public TelegramFrontController(IApiActionsFacade actionsFacade , IUpdateReader reader)
         {
+            _reader = reader;
             _actionsFacade = actionsFacade;
             _dataToActions = new Dictionary<string, Action<Update>>
             {
@@ -23,9 +26,10 @@ namespace SchedulerBot.FrontController
         public void DoAction(Update update)
         {
             Action<Update> action;
+            string command = _reader.GetCommand(update);
             try
             {
-                action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(update.message.text)).Value;
+                action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
                 action(update);
             }
             catch (Exception e)

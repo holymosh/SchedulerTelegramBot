@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Domain;
 using Infrastructure.InfrastuctureLogic;
-using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using SchedulerBot.FrontController;
 using SchedulerBot.Proxies;
@@ -12,7 +10,7 @@ namespace SchedulerBot.Controllers
     public class UpdateController : Controller
     {
         private RequestLogger _logger;
-        private ITelegramFrontController _frontController;
+        private readonly ITelegramFrontController _frontController;
         private ScheduleContext _context;
         private DatabaseContextProxy _contextProxy;
 

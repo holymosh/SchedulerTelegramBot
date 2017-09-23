@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Domain;
+using Domain.Interfaces;
 using Domain.TelegramEntities;
 using Infrastructure.InfrastuctureLogic;
 using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
@@ -9,40 +10,43 @@ namespace SchedulerBot.FrontController
 {
     public class ApiActionsFacade : IApiActionsFacade
     {
-        private ITelegramApiProxy _proxy;
-        private IStudentRepository _studentRepository;
+        private readonly ITelegramApiProxy _proxy;
+        private readonly IStudentRepository _studentRepository;
         private Queue<ScheduleContext> _contexts;
-        private IButtonFactoryMethod _buttonFactory;
+        private readonly IButtonFactoryMethod _buttonFactory;
+        private readonly IUpdateReader _updateReader;
 
         public ApiActionsFacade(ITelegramApiProxy proxy ,
-                                      IStudentRepository studentRepository,
-                                      IButtonFactoryMethod buttonsFactory)
+                                IStudentRepository studentRepository,
+                                IButtonFactoryMethod buttonsFactory,
+                                IUpdateReader reader)
         {
             _studentRepository = studentRepository;
             _proxy = proxy;
             _contexts = new Queue<ScheduleContext>();
             _buttonFactory = buttonsFactory;
+            _updateReader = reader;
         }
 
         public void Start(Update update)
         {
             var userExists = _studentRepository.UseContext(_contexts.Dequeue()).IsRegistered(update.message.from.id);
-
             InlineKeyboardMarkup markup = _buttonFactory.CreateStartMenu(userExists);
-            var message = new SendMessage(update.message.chat.id.ToString(), "Тыкни на кнопку", markup);
+            var message = new SendMessage(_updateReader.GetUserId(update), "Тыкни на кнопку", markup);
             _proxy.SendMessage(message);
         }
 
         public void SendInformationAboutBot(Update update)
         {
             _contexts.Dequeue();
-            var message = new SendMessage(update.message.chat.id.ToString(), "Бот для расписания в мисосе");
+            var message = new SendMessage(_updateReader.GetUserId(update), "Бот для расписания в мисосе");
             _proxy.SendMessage(message);
         }
 
         public void SendError(Update update)
         {
-            var message = new SendMessage(update.message.chat.id.ToString(), "команда не найдена");
+            
+            var message = new SendMessage(_updateReader.GetUserId(update), "команда не найдена");
             _proxy.SendMessage(message);
         }
 
