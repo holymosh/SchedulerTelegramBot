@@ -29,9 +29,9 @@ namespace SchedulerBot.FrontController
         public void DoAction(Update update)
         {
             Action<Update> action;
-            string command = _reader.GetCommand(update);
             try
             {
+                string command = _reader.GetCommand(update);
                 action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
                 action(update);
             }

@@ -50,7 +50,7 @@ namespace SchedulerBot.FrontController
 
         public void SendError(Update update)
         {
-            
+            _contexts.Dequeue();
             var message = new SendMessage(_updateReader.GetUserId(update), "команда не найдена");
             _proxy.SendMessage(message);
         }
