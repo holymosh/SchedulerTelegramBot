@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using System.Threading.Tasks;
+using Domain;
 using Infrastructure.InfrastuctureLogic;
 
 namespace SchedulerBot.FrontController
@@ -9,5 +10,8 @@ namespace SchedulerBot.FrontController
         void SendInformationAboutBot(Update update);
         void SendError(Update update);
         void AddContext(ScheduleContext context);
+        void JoinToGroup(Update update);
+        void ExitFromGroup(Update update);
+        Task InviteGroupMate(Update update);
     }
 }

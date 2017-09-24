@@ -28,5 +28,11 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             _students.Add(student);
             SaveChanges();
         }
+
+        public void RemoveStudent(string id)
+        {
+            _students.Remove(new Student{Id = id});
+            SaveChanges();
+        }
     }
 }

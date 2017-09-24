@@ -43,6 +43,7 @@ namespace SchedulerBot
             services.AddScoped<DatabaseContextProxy>();
             services.AddSingleton<IStudentRepository, StudentRepository>();
             services.AddSingleton<IUpdateReader, UpdateReader>();
+            services.AddSingleton<IGroupRepository, GroupRepository>();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

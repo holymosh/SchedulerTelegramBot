@@ -13,11 +13,29 @@ namespace Domain.Entities
                 CreateMenuForUnauthorizedUser();
         }
 
+        public InlineKeyboardMarkup CreateInviteButton()
+        {
+            IList<InlineKeyboardButton> joinButton = new List<InlineKeyboardButton>()
+            {
+                new InlineKeyboardButton("Присоединиться к группе ", "/join"),
+            };
+            IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>()
+            {
+                joinButton
+            };
+            return new InlineKeyboardMarkup(listOfListOfButtons);
+
+        }
+
         private InlineKeyboardMarkup CreateMenuForAuthorizedUser()
         {
             IList<InlineKeyboardButton> groupButton = new List<InlineKeyboardButton>()
             {
-                new InlineKeyboardButton("Выйти из группы", "/groups"),
+                new InlineKeyboardButton("Выйти из группы", "/exit"),
+            };
+            IList<InlineKeyboardButton> joinButton = new List<InlineKeyboardButton>()
+            {
+                new InlineKeyboardButton("Пригласить одногруппника", "/invite"),
             };
             IList<InlineKeyboardButton> currentButton = new List<InlineKeyboardButton>()
             {
@@ -51,6 +69,7 @@ namespace Domain.Entities
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>()
             {
                 groupButton,
+                joinButton,
                 currentButton,
                 nameButton,
                 nextButton,

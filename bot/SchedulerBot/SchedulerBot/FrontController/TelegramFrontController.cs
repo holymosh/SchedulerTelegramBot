@@ -19,7 +19,10 @@ namespace SchedulerBot.FrontController
             _dataToActions = new Dictionary<string, Action<Update>>
             {
                 {"/start", _actionsFacade.Start},
-                {"/info", _actionsFacade.SendInformationAboutBot}
+                {"/info", _actionsFacade.SendInformationAboutBot},
+                {"/join", actionsFacade.JoinToGroup },
+                {"/exit", actionsFacade.ExitFromGroup },
+                {"/invite" ,update => actionsFacade.InviteGroupMate(update)}
             };
         }
 

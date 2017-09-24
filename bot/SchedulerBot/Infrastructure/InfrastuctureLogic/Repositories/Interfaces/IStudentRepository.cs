@@ -7,5 +7,6 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
         IStudentRepository UseContext(ScheduleContext context);
         bool IsRegistered(string id);
         void JoinStudent(Student student);
+        void RemoveStudent(string id);
     }
 }
