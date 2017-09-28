@@ -18,7 +18,9 @@ namespace Domain.Entities
                 "/info",
                 "/join",
                 "/exit",
-                "/invite"
+                "/invite",
+                "/tomorrow"
+                
             };
         }
 

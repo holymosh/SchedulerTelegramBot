@@ -56,9 +56,9 @@ namespace Domain.Entities
             {
                 new InlineKeyboardButton("Пригласить одногруппника", "/invite")
             };
-            IList<InlineKeyboardButton> currentButton = new List<InlineKeyboardButton>
+            IList<InlineKeyboardButton> tomorrowButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Какая сейчас пара?", "/current")
+                new InlineKeyboardButton("Какие завтра пары?", "/tomorrow")
             };
             IList<InlineKeyboardButton> nameButton = new List<InlineKeyboardButton>
             {
@@ -89,7 +89,7 @@ namespace Domain.Entities
             {
                 groupButton,
                 joinButton,
-                currentButton,
+                tomorrowButton,
                 nameButton,
                 nextButton,
                 weekButton,
@@ -104,8 +104,7 @@ namespace Domain.Entities
         {
             IList<InlineKeyboardButton> groupButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Присоединиться к группе", "/join")
-
+                new InlineKeyboardButton("Создать группу", "/create")
             };
 
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>

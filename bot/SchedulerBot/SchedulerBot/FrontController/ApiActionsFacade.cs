@@ -95,5 +95,11 @@ namespace SchedulerBot.FrontController
             var answer = _buttonFactory.CreateInlineAnswer(update, groupName);
             _proxy.SendInlineAnswer(answer);
         }
+
+        public void GetTomorrowLessons(Update update)
+        {
+            _contexts.Dequeue();
+            _proxy.SendMessage(new SendMessage(_updateReader.GetUserId(update), DateTime.Now.Date.DayOfYear.ToString()));
+        }
     }
 }
