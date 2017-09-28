@@ -9,20 +9,20 @@ namespace SchedulerBot.FrontController
     public class TelegramFrontController : ITelegramFrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
-        private IApiActionsFacade _actionsFacade;
-        private readonly IUpdateReader _reader;
+        private readonly IApiActionsFacade _actionsFacade;
+        private readonly IUpdateReader _updateReader;
 
-        public TelegramFrontController(IApiActionsFacade actionsFacade , IUpdateReader reader)
+        public TelegramFrontController(IApiActionsFacade actionsFacade , IUpdateReader updateReader)
         {
-            _reader = reader;
+            _updateReader = updateReader;
             _actionsFacade = actionsFacade;
             _dataToActions = new Dictionary<string, Action<Update>>
             {
                 {"/start", _actionsFacade.Start},
                 {"/info", _actionsFacade.SendInformationAboutBot},
-                {"/join", actionsFacade.JoinToGroup },
-                {"/exit", actionsFacade.ExitFromGroup },
-                {"/invite" ,update => actionsFacade.InviteGroupMate(update)}
+                {"/join", _actionsFacade.JoinToGroup },
+                {"/exit", _actionsFacade.ExitFromGroup },
+                {"/invite" ,_actionsFacade.InviteGroupmate}
             };
         }
 
@@ -31,9 +31,16 @@ namespace SchedulerBot.FrontController
             Action<Update> action;
             try
             {
-                string command = _reader.GetCommand(update);
-                action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
-                action(update);
+                if (!_updateReader.IsInlineQuery(update))
+                {
+                    _actionsFacade.SendAnswerForInlineQuery(update);    
+                }
+                else
+                {
+                    string command = _updateReader.GetCommand(update);
+                    action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
+                    action(update);
+                }
             }
             catch (Exception e)
             {

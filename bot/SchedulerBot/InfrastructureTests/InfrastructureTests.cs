@@ -53,11 +53,25 @@ namespace InfrastructureTests
         public void GetGroupByStudent()
         {
             IGroupRepository repository = new GroupRepository();
-            ScheduleContextTest contextTest = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
+            var contextTest = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
             var student = new Student();
             student.Id = "136329961";
-            var group = repository.UseContext(contextTest).GetGroupByStudent(student);
+            var group = repository.UseContext(contextTest).GetGroupByStudent(student.Id);
             Assert.AreEqual(group.Name , "MM-15-2");
+        }
+
+        [TestMethod]
+        public void RegisterNewStudent()
+        {
+            IStudentRepository studentRepository = new StudentRepository();
+            var contextTest = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
+            var student = new Student("holymoshTestStudent","holy","mosh",isAdmin: false,groupId: 3);
+            studentRepository.UseContext(contextTest).Register(student);
+            var isRegistered = studentRepository.IsRegistered(student.Id);
+            Assert.IsTrue(isRegistered);
+            var deleteContext = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
+
+            studentRepository.UseContext(deleteContext).RemoveStudent(student.Id);
         }
     }
 }

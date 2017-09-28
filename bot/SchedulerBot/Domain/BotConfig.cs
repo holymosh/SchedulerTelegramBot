@@ -9,6 +9,7 @@ namespace Domain
         public static string Url { get; private set; }
         public static string SendMessage { get; set; }
         public static string ConnectionString { get; set; }
+        public static string AnswerInlineQuery { get; set; }
         public BotConfig()
         {
             var localPath = @"C:\scheduler\bot\SchedulerBot\SchedulerBot\botconfig.xml";
@@ -31,6 +32,8 @@ namespace Domain
                         break;
                     case "sql": ConnectionString = reader.ReadElementContentAsString();
                         break;
+                    case "inlineAnswer": AnswerInlineQuery = reader.ReadElementContentAsString();
+                        break;;
                 }
             }
         }

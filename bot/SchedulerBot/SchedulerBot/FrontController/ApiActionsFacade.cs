@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using Domain;
 using Domain.Interfaces;
 using Domain.TelegramEntities;
 using Infrastructure.InfrastuctureLogic;
 using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
+using Infrastructure.Models;
 using SchedulerBot.Proxies;
 
 namespace SchedulerBot.FrontController
@@ -18,12 +19,12 @@ namespace SchedulerBot.FrontController
         private readonly IUpdateReader _updateReader;
         private readonly IGroupRepository _groupRepository;
 
-        public ApiActionsFacade(ITelegramApiProxy proxy ,
-                                IStudentRepository studentRepository,
-                                IButtonFactoryMethod buttonsFactory,
-                                IUpdateReader reader,
-                                IGroupRepository groupRepository
-            )
+        public ApiActionsFacade(ITelegramApiProxy proxy,
+            IStudentRepository studentRepository,
+            IButtonFactoryMethod buttonsFactory,
+            IUpdateReader reader,
+            IGroupRepository groupRepository
+        )
         {
             _studentRepository = studentRepository;
             _proxy = proxy;
@@ -44,7 +45,9 @@ namespace SchedulerBot.FrontController
         public void SendInformationAboutBot(Update update)
         {
             _contexts.Dequeue();
-            var message = new SendMessage(_updateReader.GetUserId(update), "Бот для расписания в мисосе");
+            var message = new SendMessage(_updateReader.GetUserId(update), "Бот сделан для тех, " +
+              "кто не может запомнить свое расписание в течение четверти или семестра. " +
+              "Разработчик - @holymosh");
             _proxy.SendMessage(message);
         }
 
@@ -62,7 +65,10 @@ namespace SchedulerBot.FrontController
 
         public void JoinToGroup(Update update)
         {
-            throw new System.NotImplementedException();
+            var user = update.callback_query.from;
+            var student = new Student(user.id, user.first_name, user.last_name,
+                isAdmin: false, groupId: Convert.ToInt32(_updateReader.GetArgument(update)));
+            _studentRepository.UseContext(_contexts.Dequeue()).Register(student);
         }
 
         public void ExitFromGroup(Update update)
@@ -73,14 +79,21 @@ namespace SchedulerBot.FrontController
             _proxy.SendMessage(message);
         }
 
-        public async Task InviteGroupMate(Update update)
+        public void InviteGroupmate(Update update)
         {
-            var group = _groupRepository.UseContext(_contexts.Dequeue()).GetGroupByStudent(_updateReader.GetUserId(update));
-            var markup = _buttonFactory.CreateInviteButton();
-            var firstMessage = new SendMessage(_updateReader.GetUserId(update),group.Name,markup);
-            var secondMessage = new SendMessage(_updateReader.GetUserId(update),"отправь сообщение с приглашением своему одногруппнику");
-            await Task.Run(() => _proxy.SendMessage(firstMessage));
-            _proxy.SendMessage(secondMessage);
+            var group = _groupRepository.UseContext(_contexts.Dequeue())
+                .GetGroupByStudent(_updateReader.GetUserId(update));
+            var markup = _buttonFactory.CreateInlineInviteButton(group.Name, group.Id);
+            var message = new SendMessage(_updateReader.GetUserId(update), group.Name, markup);
+            _proxy.SendMessage(message);
+        }
+
+        public void SendAnswerForInlineQuery(Update update)
+        {
+            var groupName = _groupRepository.UseContext(_contexts.Dequeue())
+                .GetGroupNameById(Convert.ToInt32(update.inline_query.query));
+            var answer = _buttonFactory.CreateInlineAnswer(update, groupName);
+            _proxy.SendInlineAnswer(answer);
         }
     }
 }

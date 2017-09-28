@@ -8,5 +8,6 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
         bool IsRegistered(string id);
         void JoinStudent(Student student);
         void RemoveStudent(string id);
+        void Register(Student student);
     }
 }

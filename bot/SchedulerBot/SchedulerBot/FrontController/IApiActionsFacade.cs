@@ -12,6 +12,7 @@ namespace SchedulerBot.FrontController
         void AddContext(ScheduleContext context);
         void JoinToGroup(Update update);
         void ExitFromGroup(Update update);
-        Task InviteGroupMate(Update update);
+        void InviteGroupmate(Update update);
+        void SendAnswerForInlineQuery(Update update);
     }
 }

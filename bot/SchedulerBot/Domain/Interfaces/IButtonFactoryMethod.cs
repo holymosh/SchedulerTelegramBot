@@ -5,6 +5,7 @@ namespace Domain.Interfaces
     public interface IButtonFactoryMethod
     {
         InlineKeyboardMarkup CreateStartMenu(bool IsRegistered);
-        InlineKeyboardMarkup CreateInviteButton();
+        InlineKeyboardMarkup CreateInlineInviteButton(string groupName , int groupId);
+        AnswerInlineQuery CreateInlineAnswer(Update update, string groupName);
     }
 }

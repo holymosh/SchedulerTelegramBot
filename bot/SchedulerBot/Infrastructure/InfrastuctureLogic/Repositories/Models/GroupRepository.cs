@@ -24,5 +24,10 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             group.Students.SingleOrDefault(entity => 
             entity.Id.Equals(id)).GroupId.Equals(group.Id));
         }
+
+        public string GetGroupNameById(int id)
+        {
+            return _groups.SingleOrDefault(group => group.Id.Equals(id)).Name;
+        }
     }
 }

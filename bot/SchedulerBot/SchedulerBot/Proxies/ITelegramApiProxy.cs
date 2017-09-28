@@ -6,5 +6,6 @@ namespace SchedulerBot.Proxies
     public interface ITelegramApiProxy
     {
         HttpResponseMessage SendMessage(SendMessage message);
+        HttpResponseMessage SendInlineAnswer(AnswerInlineQuery answerInlineQuery);
     }
 }

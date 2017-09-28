@@ -20,5 +20,19 @@ namespace Infrastructure.Models
         [DefaultValue(false)]
         public bool IsAdmin { get; set; }
         public int GroupId { get; set; }
+
+        public Student(string id, string firstName, string lastName, bool isAdmin, int groupId)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            IsAdmin = isAdmin;
+            GroupId = groupId;
+        }
+
+        public Student()
+        {
+            
+        }
     }
 }
