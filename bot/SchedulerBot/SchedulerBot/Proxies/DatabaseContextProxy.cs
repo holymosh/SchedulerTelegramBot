@@ -1,5 +1,6 @@
 ﻿using Infrastructure.InfrastuctureLogic;
 using SchedulerBot.FrontController;
+using SchedulerBot.FrontController.Interfaces;
 
 namespace SchedulerBot.Proxies
 {

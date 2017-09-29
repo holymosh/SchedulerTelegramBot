@@ -115,18 +115,29 @@ namespace Domain.Entities
 
         }
 
-        private InlineKeyboardMarkup CreateUsualInviteButton(string groupName)
+        private InlineKeyboardMarkup CreateUsualInviteButton(string groupId)
         {
-            var inviteButton = new InlineKeyboardButton("Присоединиться к группе");
-            inviteButton.callback_data = $"/join/{groupName}";
-            inviteButton.url = "t.me/SchedulerLoDBot";
-            IList<InlineKeyboardButton> inviteLine = new List<InlineKeyboardButton>
+            var joinButton = new InlineKeyboardButton
             {
-                inviteButton
+                text = "Присоединиться",
+                callback_data = $"/join/{groupId}",
+            };
+            var redirectButton = new InlineKeyboardButton
+            {
+                text = "Перейти к диалогу с ботом",
+                url = "t.me/SchedulerLoDBot"
+            };
+            IList<InlineKeyboardButton> joinLine = new List<InlineKeyboardButton>
+            {
+                joinButton
+            };
+            IList<InlineKeyboardButton> redirectLine = new List<InlineKeyboardButton>
+            {
+                redirectButton
             };
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>
             {
-                inviteLine
+                joinLine,redirectLine
             };
             return new InlineKeyboardMarkup(listOfListOfButtons);
         }

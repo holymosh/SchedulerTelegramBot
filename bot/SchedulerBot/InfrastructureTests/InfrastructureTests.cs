@@ -1,3 +1,4 @@
+using System.Linq;
 using Infrastructure.InfrastuctureLogic;
 using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
 using Infrastructure.InfrastuctureLogic.Repositories.Models;

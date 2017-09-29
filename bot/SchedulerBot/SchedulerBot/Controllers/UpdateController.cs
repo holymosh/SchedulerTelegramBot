@@ -6,6 +6,7 @@ using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SchedulerBot.FrontController;
+using SchedulerBot.FrontController.Interfaces;
 using SchedulerBot.Proxies;
 
 namespace SchedulerBot.Controllers
@@ -369,9 +370,22 @@ namespace SchedulerBot.Controllers
                     monday,thuesday,thursday,wednesday,friday
                 }
             };
-            var group = _context.Groups.SingleOrDefault(entity => entity.Id.Equals(3));
+            var group = new Group();
+            group.Name = "MM-15-2";
             group.Schedule = schedule;
-            _context.Update(group);
+            group.Students = new HashSet<Student>()
+            {
+                new Student()
+                {
+                    Id = "136329961",
+                    FirstName = "Dmitry",
+                    LastName = "Holymosh",
+                    IsAdmin = true,
+                    GroupId = group.Id
+                }
+            };
+            group.Schedule.Group = group;
+            _context.Groups.Add(group);
             _context.SaveChanges();
             return Ok();
         }

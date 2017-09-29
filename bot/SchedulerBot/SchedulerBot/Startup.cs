@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SchedulerBot.FrontController;
+using SchedulerBot.FrontController.Entities;
+using SchedulerBot.FrontController.Interfaces;
 using SchedulerBot.Proxies;
 
 namespace SchedulerBot
@@ -44,6 +45,9 @@ namespace SchedulerBot
             services.AddSingleton<IStudentRepository, StudentRepository>();
             services.AddSingleton<IUpdateReader, UpdateReader>();
             services.AddSingleton<IGroupRepository, GroupRepository>();
+            services.AddSingleton<ICourseRepository,CourseRepository>();
+            services.AddSingleton<IDateTimeManager, DateTimeManager>();
+            services.AddSingleton<IScheduleMapper,SchedulerMapper>();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

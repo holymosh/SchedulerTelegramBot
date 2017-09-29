@@ -24,5 +24,9 @@
         {
             text = Text;
         }
+
+        public InlineKeyboardButton()
+        {
+        }
     }
 }

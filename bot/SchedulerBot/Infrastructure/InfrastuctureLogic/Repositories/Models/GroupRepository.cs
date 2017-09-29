@@ -8,13 +8,13 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
 {
     public class GroupRepository:IGroupRepository
     {
-        private Func<int> SaveChanges;
+        private Func<int> _saveChanges;
         private DbSet<Group> _groups;
 
         public IGroupRepository UseContext(ScheduleContext context)
         {
             _groups = context.Groups;
-            SaveChanges = context.SaveChanges;
+            _saveChanges = context.SaveChanges;
             return this;
         }
 

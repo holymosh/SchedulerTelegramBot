@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Domain;
+﻿using Domain;
 using Infrastructure.InfrastuctureLogic;
 using Microsoft.EntityFrameworkCore;
 

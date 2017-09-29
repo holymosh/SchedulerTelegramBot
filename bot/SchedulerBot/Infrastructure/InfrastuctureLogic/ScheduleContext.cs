@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Infrastructure.Models;
+﻿using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -39,18 +37,6 @@ namespace Infrastructure.InfrastuctureLogic
                 .MapTeacher(builder.Entity<Teacher>())
                 ;
             base.OnModelCreating(builder);
-        }
-
-
-        public IEnumerable<Group> GetGroupsByName(string name)
-        {
-            return Groups.Where(group => group.Name.Equals(name));
-        }
-
-        public void SaveGroup(Group group)
-        {
-            Groups.Add(group);
-            SaveChanges();
         }
 
     }
