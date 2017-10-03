@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
 using Infrastructure.Models;
@@ -20,14 +18,11 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             return this;
         }
 
-        public IEnumerable<Teacher> GetCurrentTeacher(string day, WeekType invertedWeekType, string studentId)
+        public Teacher GetCurrentTeacher(string day, WeekType invertedWeekType, string studentId ,Func<string,string,WeekType,IEnumerable<Course>> GetNextLessons)
         {
-            return _teachers.Where(teacher => teacher.Courses.Any(
-                course =>  course.Day.Name.Equals(day) && !course.WeekType.Equals(invertedWeekType) &&
-                          course.Day.Schedule.Group.Students
-                              .Any(student => student.Id.Equals(studentId)) && (course.EndHour > DateTime.Now.Hour + 3
-                    || course.EndHour.Equals(DateTime.Now.Hour + 3)
-                    && course.EndMinute > DateTime.Now.Minute)));
+            return _teachers.SingleOrDefault(
+                teacher => teacher.Id.Equals(GetNextLessons(studentId, day, invertedWeekType)
+                    .OrderBy(course => course.StartHour).First().Teacher.Id));
         }
 
     }

@@ -48,13 +48,13 @@ namespace Domain.Entities
 
         private InlineKeyboardMarkup CreateMenuForAuthorizedUser()
         {
-            IList<InlineKeyboardButton> groupButton = new List<InlineKeyboardButton>
+            IList<InlineKeyboardButton> exitButton = new List<InlineKeyboardButton>
             {
                 new InlineKeyboardButton("Выйти из группы", "/exit")
             };
             IList<InlineKeyboardButton> joinButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Пригласить одногруппника", "/invite")
+                new InlineKeyboardButton("Пригласить в группу", "/invite")
             };
             IList<InlineKeyboardButton> tomorrowButton = new List<InlineKeyboardButton>
             {
@@ -62,7 +62,7 @@ namespace Domain.Entities
             };
             IList<InlineKeyboardButton> nameButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Как зовут препода, у которого сейчас пара?", "/name")
+                new InlineKeyboardButton("У кого сейчас пара?", "/name")
             };
             IList<InlineKeyboardButton> nextButton = new List<InlineKeyboardButton>
             {
@@ -70,24 +70,20 @@ namespace Domain.Entities
             };
             IList<InlineKeyboardButton> weekButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Расписание на эту неделю", "/week")
+                new InlineKeyboardButton("Расписание на неделю", "/week")
             };
             IList<InlineKeyboardButton> downloadButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("залить расписание", "/download")
+                new InlineKeyboardButton("Изменить расписание", "/download")
             };
             IList<InlineKeyboardButton> messageButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("сообщение для группы", "/message")
+                new InlineKeyboardButton("Сообщение для группы", "/message")
             };
-            IList<InlineKeyboardButton> fileButton = new List<InlineKeyboardButton>
-            {
-                new InlineKeyboardButton("инструкция по заполнению и файл с форматом расписания", "/file")
-            };
+            
 
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>
             {
-                groupButton,
                 joinButton,
                 tomorrowButton,
                 nameButton,
@@ -95,7 +91,7 @@ namespace Domain.Entities
                 weekButton,
                 downloadButton,
                 messageButton,
-                fileButton
+                exitButton
             };
             return new InlineKeyboardMarkup(listOfListOfButtons);
         }
@@ -117,19 +113,10 @@ namespace Domain.Entities
 
         private InlineKeyboardMarkup CreateUsualInviteButton(string groupId)
         {
-            var joinButton = new InlineKeyboardButton
-            {
-                text = "Присоединиться",
-                callback_data = $"/join/{groupId}",
-            };
             var redirectButton = new InlineKeyboardButton
             {
-                text = "Перейти к диалогу с ботом",
-                url = "t.me/SchedulerLoDBot"
-            };
-            IList<InlineKeyboardButton> joinLine = new List<InlineKeyboardButton>
-            {
-                joinButton
+                text = "Присоединиться",
+                url = $"t.me/SchedulerLoDBot?start={groupId}"
             };
             IList<InlineKeyboardButton> redirectLine = new List<InlineKeyboardButton>
             {
@@ -137,7 +124,7 @@ namespace Domain.Entities
             };
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>
             {
-                joinLine,redirectLine
+                redirectLine
             };
             return new InlineKeyboardMarkup(listOfListOfButtons);
         }

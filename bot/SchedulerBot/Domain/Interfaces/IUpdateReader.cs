@@ -1,6 +1,4 @@
-﻿using Domain.TelegramEntities;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
     public interface IUpdateReader
     {
