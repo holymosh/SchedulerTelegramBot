@@ -22,7 +22,8 @@ namespace SchedulerBot.FrontController.Entities
         private readonly IGroupRepository _groupRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly IDateTimeManager _dateTimeManager;
-        private readonly IScheduleMapper _scheduleMapper;
+        private readonly IDataToMessageMapper _dataToMessageMapper;
+        private readonly ITeacherRepository _teacherRepository;
 
         public ApiActionsFacade(ITelegramApiProxy proxy,
             IStudentRepository studentRepository,
@@ -31,7 +32,8 @@ namespace SchedulerBot.FrontController.Entities
             IGroupRepository groupRepository,
             ICourseRepository courseRepository,
             IDateTimeManager dateTimeManager,
-            IScheduleMapper scheduleMapper
+            IDataToMessageMapper dataToMessageMapper,
+            ITeacherRepository teacherRepository
         )
         {
             _studentRepository = studentRepository;
@@ -42,7 +44,8 @@ namespace SchedulerBot.FrontController.Entities
             _groupRepository = groupRepository;
             _courseRepository = courseRepository;
             _dateTimeManager = dateTimeManager;
-            _scheduleMapper = scheduleMapper;
+            _dataToMessageMapper = dataToMessageMapper;
+            _teacherRepository = teacherRepository;
         }
 
         public void Start(Update update)
@@ -110,16 +113,36 @@ namespace SchedulerBot.FrontController.Entities
         public void GetTomorrowLessons(Update update)
         {
             _courseRepository.UseContext(_contexts.Dequeue());
+            var userId = _updateReader.GetUserId(update);
             if (DateTime.Today.DayOfWeek.Equals(DayOfWeek.Saturday))
             {
-                _proxy.SendMessage(new SendMessage(_updateReader.GetUserId(update), "Ае ска бля универ не работает в воскресенье"));
+                _proxy.SendMessage(new SendMessage(userId, "Ае ска бля универ не работает в воскресенье"));
             }
             else
             {
-                var lessons = _courseRepository.GetNextDayLessons(_updateReader.GetUserId(update),
-                    _dateTimeManager.GetNextDayName(), _dateTimeManager.GetCurrentWeekType());
-                _proxy.SendMessage(new SendMessage(_updateReader.GetUserId(update) ,_scheduleMapper.DisplayScheduleForNextDay(lessons)));
+                var lessons = _courseRepository.GetNextDayLessons(userId,
+                    _dateTimeManager.GetNextDayName(), _dateTimeManager.GetInvertedWeekType());
+                _proxy.SendMessage(new SendMessage(userId,_dataToMessageMapper.CreateMessageWithSchedule(lessons)));
             }
+        }
+
+        public void GetNextLessons(Update update)
+        {
+            var userId = _updateReader.GetUserId(update);
+            var lessons = _courseRepository.UseContext(_contexts.Dequeue()).GetNextLessons(userId,
+                _dateTimeManager.GetCurrentDayName(),
+                _dateTimeManager.GetInvertedWeekType());
+            _proxy.SendMessage(new SendMessage(userId,_dataToMessageMapper.CreateMessageWithSchedule(lessons)));
+        }
+
+        public void GetCurrentTeacherData(Update update)
+        {
+            var userId = _updateReader.GetUserId(update);
+            var teacher = _teacherRepository.UseContext(_contexts.Dequeue())
+                .GetCurrentTeacher(_dateTimeManager.GetCurrentDayName(), _dateTimeManager.GetInvertedWeekType(),
+                    userId);
+            var teachers = teacher.ToList();
+            _proxy.SendMessage(new SendMessage(userId, _dataToMessageMapper.CreateMessageFromTeacherData(teacher.First())));
         }
     }
 }

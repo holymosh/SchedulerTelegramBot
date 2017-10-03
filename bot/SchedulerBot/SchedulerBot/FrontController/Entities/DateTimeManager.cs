@@ -24,10 +24,13 @@ namespace SchedulerBot.FrontController.Entities
             };
         }
 
-        public WeekType GetCurrentWeekType() => 
-            (DateTime.Today.DayOfYear / 7 % 2).Equals(0) ? WeekType.Uneven :WeekType.Even;
+        public WeekType GetInvertedWeekType() => 
+            (DateTime.Today.DayOfYear / 7 % 2).Equals(0) ? WeekType.Even :WeekType.Uneven;
 
         public string GetNextDayName() => 
             _days.SingleOrDefault(pair => pair.Key.Equals(DateTime.Today.DayOfWeek +1 )).Value;
+
+        public string GetCurrentDayName() =>
+            _days.SingleOrDefault(pair => pair.Key.Equals(DateTime.Today.DayOfWeek)).Value;
     }
 }

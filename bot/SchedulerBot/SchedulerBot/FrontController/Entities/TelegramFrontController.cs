@@ -24,7 +24,9 @@ namespace SchedulerBot.FrontController.Entities
                 {"/join", _actionsFacade.JoinToGroup },
                 {"/exit", _actionsFacade.ExitFromGroup },
                 {"/invite" ,_actionsFacade.InviteGroupmate},
-                {"/tomorrow", _actionsFacade.GetTomorrowLessons }
+                {"/tomorrow", _actionsFacade.GetTomorrowLessons },
+                {"/next" , _actionsFacade.GetNextLessons},
+                {"/name", _actionsFacade.GetCurrentTeacherData  }
             };
         }
 

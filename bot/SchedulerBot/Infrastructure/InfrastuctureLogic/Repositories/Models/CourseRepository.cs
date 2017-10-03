@@ -19,11 +19,19 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             return this;
         }
 
-        public IEnumerable<Course> GetNextDayLessons(string studentId, string nextDay, WeekType type)
+        public IEnumerable<Course> GetNextDayLessons(string studentId, string nextDay, WeekType invertedWeekType)
         {
-            return _courses.Where(course => !course.WeekType.Equals(type) && course.Day.Name.Equals(nextDay) &&
+            return _courses.Where(course => !course.WeekType.Equals(invertedWeekType) && course.Day.Name.Equals(nextDay) &&
                                             course.Day.Schedule.Group.Students.Any(
                                                 student => student.Id.Equals(studentId)));
+        }
+
+        public IEnumerable<Course> GetNextLessons(string studentId, string day, WeekType invertedWeekType)
+        {
+            return _courses.Where(course => !course.WeekType.Equals(invertedWeekType) && 
+                                              course.Day.Name.Equals(day) && 
+                                    (course.EndHour > DateTime.Now.Hour+3 || 
+                               course.EndHour.Equals(DateTime.Now.Hour+3) && course.EndMinute > DateTime.Now.Minute));
         }
     }
 }

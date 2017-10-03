@@ -47,7 +47,8 @@ namespace SchedulerBot
             services.AddSingleton<IGroupRepository, GroupRepository>();
             services.AddSingleton<ICourseRepository,CourseRepository>();
             services.AddSingleton<IDateTimeManager, DateTimeManager>();
-            services.AddSingleton<IScheduleMapper,SchedulerMapper>();
+            services.AddSingleton<IDataToMessageMapper,DataToMessageMapper>();
+            services.AddSingleton<ITeacherRepository, TeacherRepository>();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

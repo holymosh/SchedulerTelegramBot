@@ -14,5 +14,7 @@ namespace SchedulerBot.FrontController.Interfaces
         void InviteGroupmate(Update update);
         void SendAnswerForInlineQuery(Update update);
         void GetTomorrowLessons(Update update);
+        void GetNextLessons(Update update);
+        void GetCurrentTeacherData(Update update);
     }
 }

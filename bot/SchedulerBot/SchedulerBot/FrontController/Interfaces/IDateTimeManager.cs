@@ -4,7 +4,8 @@ namespace SchedulerBot.FrontController.Interfaces
 {
     public interface IDateTimeManager
     {
-        WeekType GetCurrentWeekType();
+        WeekType GetInvertedWeekType();
         string GetNextDayName();
+        string GetCurrentDayName();
     }
 }
