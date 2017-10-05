@@ -39,7 +39,15 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
         public void Register(Student student)
         {
             _students.Add(student);
-            _saveChanges();
+            try
+            {
+                _students.Add(student);
+                _saveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

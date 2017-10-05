@@ -6,10 +6,10 @@ namespace Domain.Entities
 {
     public class ButtonFactoryMethod:IButtonFactoryMethod
     {
-        public InlineKeyboardMarkup CreateStartMenu(bool IsRegistered)
+        public InlineKeyboardMarkup CreateStartMenu(bool IsRegistered , string messageId)
         {
             return IsRegistered ? 
-                CreateMenuForAuthorizedUser() :
+                CreateMenuForAuthorizedUser(messageId) :
                 CreateMenuForUnauthorizedUser();
         }
 
@@ -46,7 +46,60 @@ namespace Domain.Entities
             return answer;
         }
 
-        private InlineKeyboardMarkup CreateMenuForAuthorizedUser()
+        public InlineKeyboardMarkup CreateBackButton(string messageId)
+        {
+            IList<InlineKeyboardButton> backButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Назад", "/back")
+            };
+            IList<IList<InlineKeyboardButton>> buttons = new List<IList<InlineKeyboardButton>>
+            {
+                backButton
+            };
+            return new InlineKeyboardMarkup(buttons);
+        }
+
+        public InlineKeyboardMarkup CreateWeekButtons(string messageId)
+        {
+            IList<InlineKeyboardButton> mondayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Понедельник", $"/monday {messageId}")
+            };
+            IList<InlineKeyboardButton> tuesdayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Вторник", $"/tuesday {messageId}")
+            };
+            IList<InlineKeyboardButton> wednesdayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Среда", $"/wednesday {messageId}")
+            };
+            IList<InlineKeyboardButton> thursdayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Четверг",$"/thursday {messageId}")
+            };
+            IList<InlineKeyboardButton> fridayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Пятница",$"/friday {messageId}")
+            };
+            IList<InlineKeyboardButton> saturdayButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Cуббота",$"/saturday {messageId}")
+            };
+            IList<InlineKeyboardButton> backButton = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Назад", $"/back {messageId}")
+            };
+            IList<IList<InlineKeyboardButton>> buttons = new List<IList<InlineKeyboardButton>>
+            {
+                mondayButton,tuesdayButton,
+                wednesdayButton,thursdayButton,
+                fridayButton,saturdayButton,
+                backButton
+            };
+            return new InlineKeyboardMarkup(buttons);
+        }
+
+        private InlineKeyboardMarkup CreateMenuForAuthorizedUser(string messageId)
         {
             IList<InlineKeyboardButton> exitButton = new List<InlineKeyboardButton>
             {
@@ -58,19 +111,19 @@ namespace Domain.Entities
             };
             IList<InlineKeyboardButton> tomorrowButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Какие завтра пары?", "/tomorrow")
+                new InlineKeyboardButton("Какие завтра пары?", $"/tomorrow {messageId}")
             };
             IList<InlineKeyboardButton> nameButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("У кого сейчас пара?", "/name")
+                new InlineKeyboardButton("У кого сейчас пара?", $"/name {messageId}")
             };
             IList<InlineKeyboardButton> nextButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Какие пары остались?", "/next")
+                new InlineKeyboardButton("Какие пары остались?", $"/next {messageId}")
             };
             IList<InlineKeyboardButton> weekButton = new List<InlineKeyboardButton>
             {
-                new InlineKeyboardButton("Расписание на неделю", "/week")
+                new InlineKeyboardButton("Расписание на неделю", $"/week {messageId}")
             };
             IList<InlineKeyboardButton> downloadButton = new List<InlineKeyboardButton>
             {

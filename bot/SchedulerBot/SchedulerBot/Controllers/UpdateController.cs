@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Domain;
 using Infrastructure.InfrastuctureLogic;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SchedulerBot.FrontController;
 using SchedulerBot.FrontController.Interfaces;
 using SchedulerBot.Proxies;
 

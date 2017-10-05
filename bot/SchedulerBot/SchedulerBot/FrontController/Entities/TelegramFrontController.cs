@@ -10,23 +10,25 @@ namespace SchedulerBot.FrontController.Entities
     public class TelegramFrontController : ITelegramFrontController
     {
         private IDictionary<string, Action<Update>> _dataToActions;
-        private readonly IApiActionsFacade _actionsFacade;
+        private readonly IActionsFacade _actionsFacade;
         private readonly IUpdateReader _updateReader;
 
-        public TelegramFrontController(IApiActionsFacade actionsFacade , IUpdateReader updateReader)
+        public TelegramFrontController(IActionsFacade actionsFacade , IUpdateReader updateReader)
         {
             _updateReader = updateReader;
             _actionsFacade = actionsFacade;
             _dataToActions = new Dictionary<string, Action<Update>>
             {
-                {"/start", _actionsFacade.Start},
-                {"/info", _actionsFacade.SendInformationAboutBot},
-                {"/start ", _actionsFacade.JoinToGroup },
-                {"/exit", _actionsFacade.ExitFromGroup },
-                {"/invite" ,_actionsFacade.InviteGroupmate},
-                {"/tomorrow", _actionsFacade.GetTomorrowLessons },
-                {"/next" , _actionsFacade.GetNextLessons},
-                {"/name", _actionsFacade.GetCurrentTeacherData  }
+                {"/menu",_actionsFacade.StartDialog},
+                {"/info",_actionsFacade.SendInformationAboutBot},
+                {"/start",_actionsFacade.JoinToGroup},
+                {"/exit",_actionsFacade.ExitFromGroup},
+                {"/invite",_actionsFacade.InviteGroupmate},
+                {"/tomorrow",_actionsFacade.GetTomorrowLessons},
+                {"/next",_actionsFacade.GetNextLessons},
+                {"/name",_actionsFacade.GetCurrentTeacherData},
+                {"/back",_actionsFacade.BackToTheMenu},
+                {"/week",_actionsFacade.SendWeekButtons}
             };
         }
 

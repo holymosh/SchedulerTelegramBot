@@ -38,7 +38,7 @@ namespace SchedulerBot
             services.AddSingleton(new BotConfig());
             services.AddSingleton<IButtonFactoryMethod,ButtonFactoryMethod>();
             services.AddSingleton<ITelegramApiProxy,TelegramApiProxy>();
-            services.AddSingleton<IApiActionsFacade,ApiActionsFacade>();
+            services.AddSingleton<IActionsFacade,ActionsFacade>();
             services.AddSingleton<ITelegramFrontController,TelegramFrontController>();
             services.AddSingleton(new DatabaseIntegration(services));
             services.AddScoped<DatabaseContextProxy>();

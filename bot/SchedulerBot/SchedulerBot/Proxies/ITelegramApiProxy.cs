@@ -7,5 +7,6 @@ namespace SchedulerBot.Proxies
     {
         HttpResponseMessage SendMessage(SendMessage message);
         HttpResponseMessage SendInlineAnswer(AnswerInlineQuery answerInlineQuery);
+        HttpResponseMessage EditMessage(EditMessageText text);
     }
 }
