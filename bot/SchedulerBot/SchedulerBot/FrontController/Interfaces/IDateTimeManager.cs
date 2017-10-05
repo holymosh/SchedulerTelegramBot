@@ -7,5 +7,6 @@ namespace SchedulerBot.FrontController.Interfaces
         WeekType GetInvertedWeekType();
         string GetNextDayName();
         string GetCurrentDayName();
+        string GetDayNameByCommand(string command);
     }
 }

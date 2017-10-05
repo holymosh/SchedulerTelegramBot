@@ -24,11 +24,18 @@ namespace SchedulerBot.FrontController.Entities
                 {"/start",_actionsFacade.JoinToGroup},
                 {"/exit",_actionsFacade.ExitFromGroup},
                 {"/invite",_actionsFacade.InviteGroupmate},
-                {"/tomorrow",_actionsFacade.GetTomorrowLessons},
-                {"/next",_actionsFacade.GetNextLessons},
-                {"/name",_actionsFacade.GetCurrentTeacherData},
+                {"/tomorrow",_actionsFacade.SendTomorrowLessons},
+                {"/next",_actionsFacade.SendNextLessons},
+                {"/name",_actionsFacade.SendCurrentTeacherData},
                 {"/back",_actionsFacade.BackToTheMenu},
-                {"/week",_actionsFacade.SendWeekButtons}
+                {"/week",_actionsFacade.SendWeekButtons},
+                {"/monday" , actionsFacade.SendLessonsAtCustomDay},
+                {"/tuesday" , actionsFacade.SendLessonsAtCustomDay},
+                {"/wednesday",actionsFacade.SendLessonsAtCustomDay},
+                {"/thursday",actionsFacade.SendLessonsAtCustomDay},
+                {"/friday",actionsFacade.SendLessonsAtCustomDay },
+                {"/saturday",actionsFacade.SendLessonsAtCustomDay}
+
             };
         }
 

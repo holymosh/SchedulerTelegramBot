@@ -16,7 +16,7 @@ namespace SchedulerBot.FrontController.Entities
         private readonly ITelegramApiProxy _proxy;
         private readonly IStudentRepository _studentRepository;
         private Queue<ScheduleContext> _contexts;
-        private readonly IButtonFactoryMethod _buttonFactory;
+        private readonly IButtonCreator _buttonCreator;
         private readonly IUpdateReader _updateReader;
         private readonly IGroupRepository _groupRepository;
         private readonly ICourseRepository _courseRepository;
@@ -26,7 +26,7 @@ namespace SchedulerBot.FrontController.Entities
 
         public ActionsFacade(ITelegramApiProxy proxy,
             IStudentRepository studentRepository,
-            IButtonFactoryMethod buttonsFactory,
+            IButtonCreator buttonsCreator,
             IUpdateReader reader,
             IGroupRepository groupRepository,
             ICourseRepository courseRepository,
@@ -38,7 +38,7 @@ namespace SchedulerBot.FrontController.Entities
             _studentRepository = studentRepository;
             _proxy = proxy;
             _contexts = new Queue<ScheduleContext>();
-            _buttonFactory = buttonsFactory;
+            _buttonCreator = buttonsCreator;
             _updateReader = reader;
             _groupRepository = groupRepository;
             _courseRepository = courseRepository;
@@ -52,7 +52,7 @@ namespace SchedulerBot.FrontController.Entities
             var userId = _updateReader.GetUserId(update);
             var messageId = _updateReader.GetMessageId(update)+1;
             var userExists = _studentRepository.UseContext(_contexts.Dequeue()).IsRegistered(userId);
-            var markup = _buttonFactory.CreateStartMenu(userExists , messageId.ToString());
+            var markup = _buttonCreator.CreateStartMenu(userExists , messageId.ToString());
             var message = new SendMessage(userId, "Меню", markup);
             _proxy.SendMessage(message);
         }
@@ -87,7 +87,7 @@ namespace SchedulerBot.FrontController.Entities
         public void ExitFromGroup(Update update)
         {
             _studentRepository.UseContext(_contexts.Dequeue()).RemoveStudent(_updateReader.GetUserId(update));
-            var markup = _buttonFactory.CreateStartMenu(IsRegistered: false , messageId: update.message.message_id.ToString());
+            var markup = _buttonCreator.CreateStartMenu(IsRegistered: false , messageId: update.message.message_id.ToString());
             var message = new SendMessage(_updateReader.GetUserId(update), "Меню", markup);
             _proxy.SendMessage(message);
         }
@@ -96,7 +96,7 @@ namespace SchedulerBot.FrontController.Entities
         {
             var group = _groupRepository.UseContext(_contexts.Dequeue())
                 .GetGroupByStudent(_updateReader.GetUserId(update));
-            var markup = _buttonFactory.CreateInlineInviteButton(group.Name, group.Id);
+            var markup = _buttonCreator.CreateInlineInviteButton(group.Name, group.Id);
             var message = new SendMessage(_updateReader.GetUserId(update), group.Name, markup);
             _proxy.SendMessage(message);
         }
@@ -105,35 +105,34 @@ namespace SchedulerBot.FrontController.Entities
         {
             var groupName = _groupRepository.UseContext(_contexts.Dequeue())
                 .GetGroupNameById(Convert.ToInt32(update.inline_query.query));
-            var answer = _buttonFactory.CreateInlineAnswer(update, groupName);
+            var answer = _buttonCreator.CreateInlineAnswer(update, groupName);
             _proxy.SendInlineAnswer(answer);
         }
 
-        public void GetTomorrowLessons(Update update)
+        public void SendTomorrowLessons(Update update)
         {
             _courseRepository.UseContext(_contexts.Dequeue());
             var userId = _updateReader.GetUserId(update);
             var messageId = _updateReader.GetArgument(update);
-            //var messageId = _updateReader.GetArgument(update);
             if (DateTime.Today.DayOfWeek.Equals(DayOfWeek.Saturday))
             {
                 _proxy.EditMessage(new EditMessageText(userId,
                     _updateReader.GetArgument(update),
                     "В воскресенье пар нет",
-                    _buttonFactory.CreateBackButton(messageId)));
+                    _buttonCreator.CreateBackButton(messageId)));
             }
             else
             {
-                var lessons = _courseRepository.GetNextDayLessons(userId,
+                var lessons = _courseRepository.GetLessonsAtDay(userId,
                     _dateTimeManager.GetNextDayName(), _dateTimeManager.GetInvertedWeekType());
                     var message = new EditMessageText(userId, messageId,
                         _dataToMessageMapper.CreateMessageWithSchedule(lessons),
-                        _buttonFactory.CreateBackButton(messageId));
+                        _buttonCreator.CreateBackButton(messageId));
                     _proxy.EditMessage(message);
             }
         }
 
-        public void GetNextLessons(Update update)
+        public void SendNextLessons(Update update)
         {
             var userId = _updateReader.GetUserId(update);
             var lessons = _courseRepository.UseContext(_contexts.Dequeue()).GetNextLessons(userId,
@@ -141,10 +140,10 @@ namespace SchedulerBot.FrontController.Entities
                 _dateTimeManager.GetInvertedWeekType());
             _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update),
                 _dataToMessageMapper.CreateMessageWithSchedule(lessons),
-                _buttonFactory.CreateBackButton(_updateReader.GetArgument(update))));
+                _buttonCreator.CreateBackButton(_updateReader.GetArgument(update))));
         }
 
-        public void GetCurrentTeacherData(Update update)
+        public void SendCurrentTeacherData(Update update)
         {
             var userId = _updateReader.GetUserId(update);
             var context = _contexts.Dequeue();
@@ -154,11 +153,11 @@ namespace SchedulerBot.FrontController.Entities
             {
                 var teacher = _teacherRepository.GetCurrentTeacher(_dateTimeManager.GetCurrentDayName(),
                     _dateTimeManager.GetInvertedWeekType(), userId, _courseRepository.GetNextLessons);
-                _proxy.EditMessage(new EditMessageText(userId,_updateReader.GetArgument(update),_dataToMessageMapper.CreateMessageFromTeacherData(teacher),_buttonFactory.CreateBackButton(userId)));
+                _proxy.EditMessage(new EditMessageText(userId,_updateReader.GetArgument(update),_dataToMessageMapper.CreateMessageFromTeacherData(teacher),_buttonCreator.CreateBackButton(userId)));
             }
             catch (Exception e)
             {
-                _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update), "Предметы в данный момент не найдены", _buttonFactory.CreateBackButton(userId)));
+                _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update), "Предметы в данный момент не найдены", _buttonCreator.CreateBackButton(userId)));
             }
         }
 
@@ -167,7 +166,7 @@ namespace SchedulerBot.FrontController.Entities
             _contexts.Dequeue();
             var messageId = _updateReader.GetMessageId(update);
             var userId = _updateReader.GetUserId(update);
-            _proxy.EditMessage(new EditMessageText(userId, messageId.ToString(),"Меню", _buttonFactory.CreateStartMenu(IsRegistered: true,messageId: messageId.ToString())));
+            _proxy.EditMessage(new EditMessageText(userId, messageId.ToString(),"Меню", _buttonCreator.CreateStartMenu(IsRegistered: true,messageId: messageId.ToString())));
 
         }
 
@@ -176,8 +175,23 @@ namespace SchedulerBot.FrontController.Entities
             _contexts.Dequeue();
             var messageId = _updateReader.GetMessageId(update).ToString();
             var userId = _updateReader.GetUserId(update);
-            var buttons = _buttonFactory.CreateWeekButtons(messageId);
+            var buttons = _buttonCreator.CreateWeekButtons(messageId);
             _proxy.EditMessage(new EditMessageText(userId, messageId, "Выберите день недели", buttons));
+        }
+
+        public void SendLessonsAtCustomDay(Update update)
+        {
+            _courseRepository.UseContext(_contexts.Dequeue());
+            var userId = _updateReader.GetUserId(update);
+            var messageId = _updateReader.GetArgument(update);
+            var command = _updateReader.GetCommand(update);
+            var lessons = _courseRepository.GetLessonsAtDay(userId,
+                _dateTimeManager.GetDayNameByCommand(command), _dateTimeManager.GetInvertedWeekType());
+            var message = new EditMessageText(userId, messageId,
+                _dataToMessageMapper.CreateMessageWithSchedule(lessons),
+                _buttonCreator.CreateBackToWeekButton(messageId));
+            _proxy.EditMessage(message);
+
         }
     }
 }

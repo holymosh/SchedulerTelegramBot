@@ -19,9 +19,9 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             return this;
         }
 
-        public IEnumerable<Course> GetNextDayLessons(string studentId, string nextDay, WeekType invertedWeekType)
+        public IEnumerable<Course> GetLessonsAtDay(string studentId, string day, WeekType invertedWeekType)
         {
-            return _courses.Where(course => !course.WeekType.Equals(invertedWeekType) && course.Day.Name.Equals(nextDay) &&
+            return _courses.Where(course => !course.WeekType.Equals(invertedWeekType) && course.Day.Name.Equals(day) &&
                                             course.Day.Schedule.Group.Students.Any(
                                                 student => student.Id.Equals(studentId)));
         }

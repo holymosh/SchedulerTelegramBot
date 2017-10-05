@@ -4,7 +4,7 @@ using Domain.TelegramEntities;
 
 namespace Domain.Entities
 {
-    public class ButtonFactoryMethod:IButtonFactoryMethod
+    public class ButtonCreator:IButtonCreator
     {
         public InlineKeyboardMarkup CreateStartMenu(bool IsRegistered , string messageId)
         {
@@ -95,6 +95,24 @@ namespace Domain.Entities
                 wednesdayButton,thursdayButton,
                 fridayButton,saturdayButton,
                 backButton
+            };
+            return new InlineKeyboardMarkup(buttons);
+        }
+
+        public InlineKeyboardMarkup CreateBackToWeekButton(string messageId)
+        {
+            IList<InlineKeyboardButton> backToWeeks = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("Назад", $"/week {messageId}")
+            };
+            IList<InlineKeyboardButton> backToMenu = new List<InlineKeyboardButton>
+            {
+                new InlineKeyboardButton("В главное меню", $"/back {messageId}")
+            };
+
+            IList<IList<InlineKeyboardButton>> buttons = new List<IList<InlineKeyboardButton>>
+            {
+                backToWeeks,backToMenu
             };
             return new InlineKeyboardMarkup(buttons);
         }

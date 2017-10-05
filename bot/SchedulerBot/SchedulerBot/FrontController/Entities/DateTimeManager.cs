@@ -9,10 +9,11 @@ namespace SchedulerBot.FrontController.Entities
     public class DateTimeManager:IDateTimeManager
     {
         private readonly IDictionary<DayOfWeek, string> _days;
+        private readonly IDictionary<string, string> _commandToDays;
 
         public DateTimeManager()
         {
-            _days = new Dictionary<DayOfWeek, string>()
+            _days = new Dictionary<DayOfWeek, string>
             {
                 {DayOfWeek.Sunday, "Воскресенье"},
                 {DayOfWeek.Monday, "Понедельник"},
@@ -21,6 +22,15 @@ namespace SchedulerBot.FrontController.Entities
                 {DayOfWeek.Thursday, "Четверг" },
                 {DayOfWeek.Friday, "Пятница"},
                 {DayOfWeek.Saturday, "Cуббота"}
+            };
+            _commandToDays = new Dictionary<string, string>()
+            {
+                {"/monday", "Понедельник"},
+                {"/tuesday","Вторник"},
+                {"/wednesday", "Среда"},
+                {"/thursday", "Четверг" },
+                {"/friday", "Пятница"},
+                {"/saturday", "Cуббота"}
             };
         }
 
@@ -32,5 +42,10 @@ namespace SchedulerBot.FrontController.Entities
 
         public string GetCurrentDayName() =>
             _days.SingleOrDefault(pair => pair.Key.Equals(DateTime.Today.DayOfWeek)).Value;
+
+        public string GetDayNameByCommand(string command)
+        {
+            return _commandToDays.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
+        }
     }
 }

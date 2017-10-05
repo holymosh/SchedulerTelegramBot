@@ -13,10 +13,11 @@ namespace SchedulerBot.FrontController.Interfaces
         void ExitFromGroup(Update update);
         void InviteGroupmate(Update update);
         void SendAnswerForInlineQuery(Update update);
-        void GetTomorrowLessons(Update update);
-        void GetNextLessons(Update update);
-        void GetCurrentTeacherData(Update update);
+        void SendTomorrowLessons(Update update);
+        void SendNextLessons(Update update);
+        void SendCurrentTeacherData(Update update);
         void BackToTheMenu(Update update);
         void SendWeekButtons(Update update);
+        void SendLessonsAtCustomDay(Update update);
     }
 }

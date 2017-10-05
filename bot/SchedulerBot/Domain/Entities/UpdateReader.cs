@@ -21,7 +21,13 @@ namespace Domain.Entities
                 "/next",
                 "/name",
                 "/back",
-                "/week"
+                "/week",
+                "/monday",
+                "/tuesday" ,
+                "/wednesday",
+                "/thursday",
+                "/friday",
+                "/saturday"
             };
         }
 
