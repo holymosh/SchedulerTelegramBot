@@ -7,5 +7,6 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
         IGroupRepository UseContext(ScheduleContext context);
         Group GetGroupByStudent(string id);
         string GetGroupNameById(int id);
+        void SaveGroup(Group group);
     }
 }

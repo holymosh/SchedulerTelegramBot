@@ -91,26 +91,44 @@ namespace SchedulerBot.FrontController.Entities
             _contexts.Enqueue(context);
         }
 
-        public void JoinToGroup(Update update)
+        public void HandleInitialMessage(Update update)
         {
             var user = update.message.from;
-            var student = new Student(user.id, user.first_name, user.last_name,
-                isAdmin: false, groupId: Convert.ToInt32(_updateReader.GetArgument(update)));
-            _studentRepository.UseContext(_contexts.Dequeue()).Register(student);
-            var userId = _updateReader.GetUserId(update);
+            var isRegistered = _studentRepository.UseContext(_contexts.Dequeue()).IsRegistered(user.id);
+            var command = _updateReader.GetCommand(update);
             var messageId = _updateReader.GetMessageId(update) + 1;
-            var markup = _buttonCreator.CreateStartMenu(IsRegistered: true, messageId: messageId.ToString());
-            var message = new SendMessage(userId, "Меню", markup);
-            _proxy.SendMessage(message);
-
+            var isJoinMessage = !command.Length.Equals(update.message.text.Length);
+            var userId = _updateReader.GetUserId(update);
+            if (isJoinMessage)
+            {
+                var student = new Student(user.id, user.first_name, user.last_name,
+                    isAdmin: false, groupId: Convert.ToInt32(_updateReader.GetArgument(update)));
+                _studentRepository.Register(student);
+                var markup = _buttonCreator.CreateStartMenu(IsRegistered: true, messageId: messageId.ToString());
+                var message = new SendMessage(userId, "Меню", markup);
+                _proxy.SendMessage(message);
+            }
+            else
+            {
+                if (isRegistered)
+                {
+                    var markup = _buttonCreator.CreateStartMenu(IsRegistered: true, messageId: messageId.ToString());
+                    var message = new SendMessage(userId, "Меню", markup);
+                    _proxy.SendMessage(message);
+                }
+                else
+                {
+                    var message = new SendMessage(userId, 
+                        "для создания группы используйте /create. Например:\n /create ММ-15-2");
+                    _proxy.SendMessage(message);
+                }
+            }
         }
 
         public void ExitFromGroup(Update update)
         {
             _studentRepository.UseContext(_contexts.Dequeue()).RemoveStudent(_updateReader.GetUserId(update));
-            var markup = _buttonCreator.CreateStartMenu(IsRegistered: false,
-                messageId: update.message.message_id.ToString());
-            var message = new SendMessage(_updateReader.GetUserId(update), "Меню", markup);
+            var message = new SendMessage(_updateReader.GetUserId(update), "Вы вышли из группы");
             _proxy.SendMessage(message);
         }
 
@@ -223,6 +241,33 @@ namespace SchedulerBot.FrontController.Entities
             var groupmates = _studentRepository.UseContext(_contexts.Dequeue())
                 .GetGroupmates(_updateReader.GetUserId(update)).ToList();
                 await SendMessagesAsync(groupmates, update);
+        }
+
+        public void CreateGroup(Update update)
+        {
+            var context = _contexts.Dequeue();
+            var userId = _updateReader.GetUserId(update);
+            var command = _updateReader.GetCommand(update);
+            if (command.Length.Equals(update.message.text.Length))
+            {
+                _proxy.SendMessage(new SendMessage(userId, "Вы не ввели название группы"));
+            }
+            else
+            {
+                var group = new Group()
+                {
+                    Name = _updateReader.GetArgument(update)
+                };
+                group.Students = new HashSet<Student>();
+                group.Schedule =  new Schedule();
+                var user = update.message.from;
+                var student = new Student(userId,user.first_name,user.last_name,true);
+                group.Students.Add(student);
+                _groupRepository.UseContext(context).SaveGroup(group);
+                _proxy.SendMessage(new SendMessage(userId, 
+                    "Для того чтобы посмотреть доступные функции введите /menu. " +
+                    "Заполните расписание чтобы пользоваться ботом дальше"));
+            }
         }
     }
 }

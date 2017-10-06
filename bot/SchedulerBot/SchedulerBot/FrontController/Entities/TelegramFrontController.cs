@@ -21,7 +21,7 @@ namespace SchedulerBot.FrontController.Entities
             {
                 {"/menu",_actionsFacade.StartDialog},
                 {"/info",_actionsFacade.SendInformationAboutBot},
-                {"/start",_actionsFacade.JoinToGroup},
+                {"/start",_actionsFacade.HandleInitialMessage},
                 {"/exit",_actionsFacade.ExitFromGroup},
                 {"/invite",_actionsFacade.InviteGroupmate},
                 {"/tomorrow",_actionsFacade.SendTomorrowLessons},
@@ -36,6 +36,7 @@ namespace SchedulerBot.FrontController.Entities
                 {"/friday",actionsFacade.SendLessonsAtCustomDay },
                 {"/saturday",actionsFacade.SendLessonsAtCustomDay},
                 //{"/message",_actionsFacade.SendMessageToGroupmates }
+                {"/create", actionsFacade.CreateGroup }
 
             };
         }

@@ -29,26 +29,6 @@ namespace InfrastructureTests
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
-        public void RemoveStudent()
-        {
-            IStudentRepository studentRepository = new StudentRepository();
-            ScheduleContextTest saveContext = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-            saveContext.Students.Add(new Student()
-            {
-                Id = "1337",
-                FirstName = "first",
-                LastName = "last",
-                IsAdmin = false,
-                GroupId = 3
-            });
-            saveContext.SaveChanges();
-            saveContext.Dispose();
-            ScheduleContextTest deleteContext = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-            studentRepository.UseContext(deleteContext).RemoveStudent("1337");
-            var exists = studentRepository.IsRegistered("1337");
-            Assert.IsFalse(exists);
-        }
 
         [TestMethod]
         public void GetGroupByStudent()
@@ -61,18 +41,5 @@ namespace InfrastructureTests
             Assert.AreEqual(group.Name , "MM-15-2");
         }
 
-        [TestMethod]
-        public void RegisterNewStudent()
-        {
-            IStudentRepository studentRepository = new StudentRepository();
-            var contextTest = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-            var student = new Student("holymoshTestStudent","holy","mosh",isAdmin: false,groupId: 3);
-            studentRepository.UseContext(contextTest).Register(student);
-            var isRegistered = studentRepository.IsRegistered(student.Id);
-            Assert.IsTrue(isRegistered);
-            var deleteContext = new ScheduleContextTest(new DbContextOptions<ScheduleContext>());
-
-            studentRepository.UseContext(deleteContext).RemoveStudent(student.Id);
-        }
     }
 }

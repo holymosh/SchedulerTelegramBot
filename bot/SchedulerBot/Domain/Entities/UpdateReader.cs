@@ -28,7 +28,7 @@ namespace Domain.Entities
                 "/thursday",
                 "/friday",
                 "/saturday",
-                //"/message"
+                "/create"
             };
         }
 

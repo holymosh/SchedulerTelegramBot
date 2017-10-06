@@ -8,13 +8,13 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
 {
     public class GroupRepository:IGroupRepository
     {
-        private Func<int> _saveChanges;
+        private Func<int> SaveChanges;
         private DbSet<Group> _groups;
 
         public IGroupRepository UseContext(ScheduleContext context)
         {
             _groups = context.Groups;
-            _saveChanges = context.SaveChanges;
+            SaveChanges = context.SaveChanges;
             return this;
         }
 
@@ -28,6 +28,12 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
         public string GetGroupNameById(int id)
         {
             return _groups.SingleOrDefault(group => group.Id.Equals(id)).Name;
+        }
+
+        public void SaveGroup(Group @group)
+        {
+            _groups.Add(group);
+            SaveChanges();
         }
     }
 }

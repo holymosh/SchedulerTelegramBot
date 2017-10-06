@@ -3,7 +3,6 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Domain.TelegramEntities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Bson;
 
 namespace DomainTests
 {
@@ -73,26 +72,17 @@ namespace DomainTests
             Assert.IsTrue(reader.IsInlineQuery(update));
         }
 
+        
         [TestMethod]
-        public void GetCommandFromUpdate()
+        public void GetArgumentWhenArgumentDontExistsInMessage()
         {
             IUpdateReader reader = new UpdateReader();
             var update = new Update();
             update.message = new Message();
-            update.message.text = "/join/MM-15-2";
-            var command = reader.GetCommand(update);
-            Assert.AreEqual("/join",command);
-        }
+            update.message.text = "/start";
+            var argument = reader.GetArgument(update);
+            Assert.IsNull(argument);
 
-        [TestMethod]
-        public void GetArgumentFromUpdate()
-        {
-            IUpdateReader reader = new UpdateReader();
-            var update = new Update();
-            update.message = new Message();
-            update.message.text = "/join/MM-15-2";
-            var groupName = reader.GetArgument(update);
-            Assert.AreEqual("MM-15-2",groupName);
         }
     }
 }

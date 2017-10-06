@@ -33,5 +33,13 @@ namespace Infrastructure.Models
         {
             
         }
+
+        public Student(string id, string firstName, string lastName, bool isAdmin)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            IsAdmin = isAdmin;
+        }
     }
 }

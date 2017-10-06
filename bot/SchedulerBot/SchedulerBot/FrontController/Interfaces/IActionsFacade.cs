@@ -9,7 +9,7 @@ namespace SchedulerBot.FrontController.Interfaces
         void SendInformationAboutBot(Update update);
         void SendError(Update update);
         void AddContext(ScheduleContext context);
-        void JoinToGroup(Update update);
+        void HandleInitialMessage(Update update);
         void ExitFromGroup(Update update);
         void InviteGroupmate(Update update);
         void SendAnswerForInlineQuery(Update update);
@@ -20,5 +20,6 @@ namespace SchedulerBot.FrontController.Interfaces
         void SendWeekButtons(Update update);
         void SendLessonsAtCustomDay(Update update);
         void SendMessageToGroupmates(Update update);
+        void CreateGroup(Update update);
     }
 }
