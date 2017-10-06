@@ -147,11 +147,6 @@ namespace Domain.Entities
             {
                 new InlineKeyboardButton("Изменить расписание", "/download")
             };
-            IList<InlineKeyboardButton> messageButton = new List<InlineKeyboardButton>
-            {
-                new InlineKeyboardButton("Сообщение для группы", "/message")
-            };
-            
 
             IList<IList<InlineKeyboardButton>> listOfListOfButtons = new List<IList<InlineKeyboardButton>>
             {
@@ -161,7 +156,6 @@ namespace Domain.Entities
                 nextButton,
                 weekButton,
                 downloadButton,
-                messageButton,
                 exitButton
             };
             return new InlineKeyboardMarkup(listOfListOfButtons);

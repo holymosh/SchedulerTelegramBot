@@ -38,7 +38,6 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
 
         public void Register(Student student)
         {
-            _students.Add(student);
             try
             {
                 _students.Add(student);
@@ -48,6 +47,12 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Models
             {
                 Console.WriteLine(e);
             }
+        }
+
+        public IEnumerable<Student> GetGroupmates(string studentId)
+        {
+            return _students.Where(student => student.GroupId.Equals(_students.
+                SingleOrDefault(entity => entity.Id.Equals(studentId)).GroupId));
         }
     }
 }

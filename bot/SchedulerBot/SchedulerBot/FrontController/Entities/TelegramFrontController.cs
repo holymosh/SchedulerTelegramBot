@@ -34,7 +34,8 @@ namespace SchedulerBot.FrontController.Entities
                 {"/wednesday",actionsFacade.SendLessonsAtCustomDay},
                 {"/thursday",actionsFacade.SendLessonsAtCustomDay},
                 {"/friday",actionsFacade.SendLessonsAtCustomDay },
-                {"/saturday",actionsFacade.SendLessonsAtCustomDay}
+                {"/saturday",actionsFacade.SendLessonsAtCustomDay},
+                //{"/message",_actionsFacade.SendMessageToGroupmates }
 
             };
         }
@@ -46,18 +47,22 @@ namespace SchedulerBot.FrontController.Entities
             {
                 if (!_updateReader.IsInlineQuery(update))
                 {
-                    _actionsFacade.SendAnswerForInlineQuery(update);    
+                    _actionsFacade.SendAnswerForInlineQuery(update);
                 }
                 else
                 {
-                    string command = _updateReader.GetCommand(update);
-                    action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
-                    action(update);
+                        string command = _updateReader.GetCommand(update);
+                        action = _dataToActions.SingleOrDefault(pair => pair.Key.Equals(command)).Value;
+                        action(update);
                 }
             }
             catch (Exception e)
             {
-                _actionsFacade.SendError(update);
+                //_actionsFacade.SendError(update);
+                    if (update.edited_message is null)
+                    {
+                        _actionsFacade.SendMessageToGroupmates(update);
+                    }
             }
         }
     }

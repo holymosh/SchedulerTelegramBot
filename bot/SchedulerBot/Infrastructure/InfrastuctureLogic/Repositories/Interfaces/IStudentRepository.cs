@@ -1,4 +1,5 @@
-﻿using Infrastructure.Models;
+﻿using System.Collections.Generic;
+using Infrastructure.Models;
 
 namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
 {
@@ -9,5 +10,6 @@ namespace Infrastructure.InfrastuctureLogic.Repositories.Interfaces
         void JoinStudent(Student student);
         void RemoveStudent(string id);
         void Register(Student student);
+        IEnumerable<Student> GetGroupmates(string studentId);
     }
 }

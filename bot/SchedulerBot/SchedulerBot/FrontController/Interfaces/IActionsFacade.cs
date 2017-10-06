@@ -19,5 +19,6 @@ namespace SchedulerBot.FrontController.Interfaces
         void BackToTheMenu(Update update);
         void SendWeekButtons(Update update);
         void SendLessonsAtCustomDay(Update update);
+        void SendMessageToGroupmates(Update update);
     }
 }

@@ -21,9 +21,9 @@ namespace SchedulerBot.FrontController.Entities
             foreach (var course in orderedCourses)
             {
 
-                schedule += $"\t c {course.StartHour}:{ToString(course.StartMinute)} " +
+                schedule += $"⌚ C {course.StartHour}:{ToString(course.StartMinute)} " +
                             $"до {course.EndHour}:{ToString(course.EndMinute)} {course.LessonType} \n";
-                schedule += $"{course.Name} в {course.Location} \n \n";
+                schedule += $"📝 {course.Name} в {course.Location} \n \n";
             }
             schedule += "прогуливайте умеренно";
             return schedule;

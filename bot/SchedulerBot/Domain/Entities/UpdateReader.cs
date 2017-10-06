@@ -27,7 +27,8 @@ namespace Domain.Entities
                 "/wednesday",
                 "/thursday",
                 "/friday",
-                "/saturday"
+                "/saturday",
+                //"/message"
             };
         }
 
@@ -45,14 +46,14 @@ namespace Domain.Entities
         public string GetCommand(Update update)
         {
             var actionData = GetActionData(update);
-            var command = _commands.Last(entity => actionData.Contains(entity));
+            var command = _commands.SingleOrDefault(entity => actionData.Contains(entity));
             return command;
         }
 
         public string GetArgument(Update update)
         {
             var actionData = GetActionData(update);
-            var command = _commands.Last(entity => actionData.Contains(entity));
+            var command = _commands.SingleOrDefault(entity => actionData.Contains(entity));
             var argument = actionData.Remove(0, command.Length + 1);
             return argument;
         }

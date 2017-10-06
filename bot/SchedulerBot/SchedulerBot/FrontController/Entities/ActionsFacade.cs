@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Domain;
 using Domain.Interfaces;
 using Domain.TelegramEntities;
@@ -23,6 +25,18 @@ namespace SchedulerBot.FrontController.Entities
         private readonly IDateTimeManager _dateTimeManager;
         private readonly IDataToMessageMapper _dataToMessageMapper;
         private readonly ITeacherRepository _teacherRepository;
+
+        private async Task SendMessagesAsync(IEnumerable<Student> groupmates, Update update)
+        {
+            var messageOwner =
+                groupmates.SingleOrDefault(student => student.Id.Equals(_updateReader.GetUserId(update)));
+            var message = update.message.text;
+            var taskFactory = new  TaskFactory(TaskCreationOptions.AttachedToParent,TaskContinuationOptions.None);
+            foreach (var groupmate in groupmates)
+            {
+                await taskFactory.StartNew(() => _proxy.SendMessage(new SendMessage(groupmate.Id, message)));
+            }
+        }
 
         public ActionsFacade(ITelegramApiProxy proxy,
             IStudentRepository studentRepository,
@@ -50,9 +64,9 @@ namespace SchedulerBot.FrontController.Entities
         public void StartDialog(Update update)
         {
             var userId = _updateReader.GetUserId(update);
-            var messageId = _updateReader.GetMessageId(update)+1;
+            var messageId = _updateReader.GetMessageId(update) + 1;
             var userExists = _studentRepository.UseContext(_contexts.Dequeue()).IsRegistered(userId);
-            var markup = _buttonCreator.CreateStartMenu(userExists , messageId.ToString());
+            var markup = _buttonCreator.CreateStartMenu(userExists, messageId.ToString());
             var message = new SendMessage(userId, "Меню", markup);
             _proxy.SendMessage(message);
         }
@@ -60,7 +74,8 @@ namespace SchedulerBot.FrontController.Entities
         public void SendInformationAboutBot(Update update)
         {
             _contexts.Dequeue();
-            var message = new SendMessage(_updateReader.GetUserId(update), "Не трать свою память на расписание, для этого есть scheduler. Разработчик - @holymosh");
+            var message = new SendMessage(_updateReader.GetUserId(update),
+                "Не трать свою память на расписание, для этого есть scheduler. Разработчик - @holymosh");
             _proxy.SendMessage(message);
         }
 
@@ -82,12 +97,19 @@ namespace SchedulerBot.FrontController.Entities
             var student = new Student(user.id, user.first_name, user.last_name,
                 isAdmin: false, groupId: Convert.ToInt32(_updateReader.GetArgument(update)));
             _studentRepository.UseContext(_contexts.Dequeue()).Register(student);
+            var userId = _updateReader.GetUserId(update);
+            var messageId = _updateReader.GetMessageId(update) + 1;
+            var markup = _buttonCreator.CreateStartMenu(IsRegistered: true, messageId: messageId.ToString());
+            var message = new SendMessage(userId, "Меню", markup);
+            _proxy.SendMessage(message);
+
         }
 
         public void ExitFromGroup(Update update)
         {
             _studentRepository.UseContext(_contexts.Dequeue()).RemoveStudent(_updateReader.GetUserId(update));
-            var markup = _buttonCreator.CreateStartMenu(IsRegistered: false , messageId: update.message.message_id.ToString());
+            var markup = _buttonCreator.CreateStartMenu(IsRegistered: false,
+                messageId: update.message.message_id.ToString());
             var message = new SendMessage(_updateReader.GetUserId(update), "Меню", markup);
             _proxy.SendMessage(message);
         }
@@ -125,10 +147,10 @@ namespace SchedulerBot.FrontController.Entities
             {
                 var lessons = _courseRepository.GetLessonsAtDay(userId,
                     _dateTimeManager.GetNextDayName(), _dateTimeManager.GetInvertedWeekType());
-                    var message = new EditMessageText(userId, messageId,
-                        _dataToMessageMapper.CreateMessageWithSchedule(lessons),
-                        _buttonCreator.CreateBackButton(messageId));
-                    _proxy.EditMessage(message);
+                var message = new EditMessageText(userId, messageId,
+                    _dataToMessageMapper.CreateMessageWithSchedule(lessons),
+                    _buttonCreator.CreateBackButton(messageId));
+                _proxy.EditMessage(message);
             }
         }
 
@@ -153,11 +175,14 @@ namespace SchedulerBot.FrontController.Entities
             {
                 var teacher = _teacherRepository.GetCurrentTeacher(_dateTimeManager.GetCurrentDayName(),
                     _dateTimeManager.GetInvertedWeekType(), userId, _courseRepository.GetNextLessons);
-                _proxy.EditMessage(new EditMessageText(userId,_updateReader.GetArgument(update),_dataToMessageMapper.CreateMessageFromTeacherData(teacher),_buttonCreator.CreateBackButton(userId)));
+                _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update),
+                    _dataToMessageMapper.CreateMessageFromTeacherData(teacher),
+                    _buttonCreator.CreateBackButton(userId)));
             }
             catch (Exception e)
             {
-                _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update), "Предметы в данный момент не найдены", _buttonCreator.CreateBackButton(userId)));
+                _proxy.EditMessage(new EditMessageText(userId, _updateReader.GetArgument(update),
+                    "Предметы в данный момент не найдены", _buttonCreator.CreateBackButton(userId)));
             }
         }
 
@@ -166,8 +191,8 @@ namespace SchedulerBot.FrontController.Entities
             _contexts.Dequeue();
             var messageId = _updateReader.GetMessageId(update);
             var userId = _updateReader.GetUserId(update);
-            _proxy.EditMessage(new EditMessageText(userId, messageId.ToString(),"Меню", _buttonCreator.CreateStartMenu(IsRegistered: true,messageId: messageId.ToString())));
-
+            _proxy.EditMessage(new EditMessageText(userId, messageId.ToString(), "Меню",
+                _buttonCreator.CreateStartMenu(IsRegistered: true, messageId: messageId.ToString())));
         }
 
         public void SendWeekButtons(Update update)
@@ -191,7 +216,13 @@ namespace SchedulerBot.FrontController.Entities
                 _dataToMessageMapper.CreateMessageWithSchedule(lessons),
                 _buttonCreator.CreateBackToWeekButton(messageId));
             _proxy.EditMessage(message);
+        }
 
+        public async void SendMessageToGroupmates(Update update)
+        {
+            var groupmates = _studentRepository.UseContext(_contexts.Dequeue())
+                .GetGroupmates(_updateReader.GetUserId(update)).ToList();
+                await SendMessagesAsync(groupmates, update);
         }
     }
 }

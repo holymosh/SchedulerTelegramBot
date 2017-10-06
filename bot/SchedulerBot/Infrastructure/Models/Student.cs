@@ -13,8 +13,7 @@ namespace Infrastructure.Models
 
         [MaxLength(50),Required]
         public string FirstName { get; set; }
-
-        [MaxLength(50),Required]
+        [MaxLength(50)]
         public string LastName { get; set; }
 
         [DefaultValue(false)]
