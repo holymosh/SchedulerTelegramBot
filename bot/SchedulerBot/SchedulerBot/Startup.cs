@@ -1,11 +1,17 @@
 ﻿using Domain;
+using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.InfrastuctureLogic;
+using Infrastructure.InfrastuctureLogic.Repositories.Interfaces;
+using Infrastructure.InfrastuctureLogic.Repositories.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SchedulerBot.FrontController;
+using SchedulerBot.FrontController.Entities;
+using SchedulerBot.FrontController.Interfaces;
+using SchedulerBot.Proxies;
 
 namespace SchedulerBot
 {
@@ -30,11 +36,20 @@ namespace SchedulerBot
             services.AddMvc();
             services.AddSingleton(new RequestLogger());
             services.AddSingleton(new BotConfig());
+            services.AddSingleton<IButtonCreator,ButtonCreator>();
             services.AddSingleton<ITelegramApiProxy,TelegramApiProxy>();
-            services.AddSingleton<IApiActions,ApiActions>();
+            services.AddSingleton<IActionsFacade,ActionsFacade>();
             services.AddSingleton<ITelegramFrontController,TelegramFrontController>();
             services.AddSingleton(new DatabaseIntegration(services));
-        }
+            services.AddScoped<DatabaseContextProxy>();
+            services.AddSingleton<IStudentRepository, StudentRepository>();
+            services.AddSingleton<IUpdateReader, UpdateReader>();
+            services.AddSingleton<IGroupRepository, GroupRepository>();
+            services.AddSingleton<ICourseRepository,CourseRepository>();
+            services.AddSingleton<IDateTimeManager, DateTimeManager>();
+            services.AddSingleton<IDataToMessageMapper,DataToMessageMapper>();
+            services.AddSingleton<ITeacherRepository, TeacherRepository>();
+        }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -43,5 +58,6 @@ namespace SchedulerBot
             loggerFactory.AddDebug();
             app.UseMvc();
         }
+
     }
 }

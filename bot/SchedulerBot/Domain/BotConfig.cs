@@ -7,8 +7,10 @@ namespace Domain
     {
         public static string Token { get; private set; }
         public static string Url { get; private set; }
-        public static string SendMessage { get; set; }
-        public static string ConnectionString { get; set; }
+        public static string SendMessage { get; private set; }
+        public static string ConnectionString { get; private set; }
+        public static string AnswerInlineQuery { get; private set; }
+        public static string EditMessage { get; private set; }
         public BotConfig()
         {
             var localPath = @"C:\scheduler\bot\SchedulerBot\SchedulerBot\botconfig.xml";
@@ -30,6 +32,10 @@ namespace Domain
                     case "send": SendMessage = reader.ReadElementContentAsString();
                         break;
                     case "sql": ConnectionString = reader.ReadElementContentAsString();
+                        break;
+                    case "inlineAnswer": AnswerInlineQuery = reader.ReadElementContentAsString();
+                        break;
+                    case "editMessage": EditMessage = reader.ReadElementContentAsString();
                         break;
                 }
             }
